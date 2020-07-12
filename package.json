@@ -4,11 +4,11 @@
   "description": "small cross platform app for join purchase",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start-dev": "npm run build-watch & npm run start-server",
-    "start-server": "nodemon server -e html,js,css --ignore public",
+    "start-server": "nodemon main.js -e html,js,css --ignore public",
     "build-watch": "webpack -w",
-    "start": "nodemon server"
+    "start": "nodemon main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
