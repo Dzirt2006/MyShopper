@@ -6,6 +6,10 @@ module.exports = db.define('pool', {
     users: {
         type: Sequelize.INTEGER,
         defaultValue: 1
+    },
+    name:{
+        type:Sequelize.STRING,
+        allowNull:false
     }
 })
 

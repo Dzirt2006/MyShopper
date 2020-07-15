@@ -2,7 +2,22 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const morgan = require("morgan");
+const cookieParser = require('cookie-parser');
+const crypto = require('crypto');
 
+
+
+const session = require('express-session');
+// app.use(
+//   session({
+//     UUID: crypto.randomBytes(64).toString('hex'),
+//     secret: process.env.SESSION_SECRET || 'Shh, its a secret!',
+//     resave: false,
+//     saveUninitialized: false
+//   })
+// )
+
+app.use(cookieParser());
 
 // logging middleware
 app.use(morgan("dev"));
@@ -13,13 +28,23 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // api routes
-// app.use("/api", require("./api"));
+app.use("/api", require("./api"));
 
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, "../src")));
 
 // Send index.html for any other requests
 app.get("*", (req, res) => {
+  //create id for new user and save it in cookie
+  if (!req.headers.cookie) {
+    res.cookie('id', `${crypto.randomBytes(8).toString('hex'),
+    {
+      httpOnly: true, // http only, prevents JavaScript cookie access
+      secure: true   // cookie must be sent over https / ssl
+    }
+      }`)
+  }
+  // res.clearCookie('id');
   res.sendFile(path.join(__dirname, "../src/index.html"));
 });
 
