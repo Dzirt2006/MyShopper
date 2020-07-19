@@ -4,7 +4,7 @@ const {User,Pool} = require('../db/models')
 module.exports=router;
 
 router.get('/',async (req,res,next)=>{
-    console.log("cookie",req.signedCookies.id);
+    console.log("cookie",typeof req.signedCookies.id);
     res.send();
 })
 
