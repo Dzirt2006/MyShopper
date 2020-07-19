@@ -17,7 +17,7 @@ const session = require('express-session');
 //   })
 // )
 
-app.use(cookieParser());
+app.use(cookieParser(`${process.env.COOKIE_SECRET}`));
 
 // logging middleware
 app.use(morgan("dev"));
@@ -37,16 +37,17 @@ app.use(express.static(path.join(__dirname, "../src")));
 app.get("*", (req, res) => {
   //create id for new user and save it in cookie
   if (!req.headers.cookie) {
-    res.cookie('id', `${crypto.randomBytes(8).toString('hex'),
-    {
-      httpOnly: true, // http only, prevents JavaScript cookie access
-      secure: true   // cookie must be sent over https / ssl
-    }
-      }`)
+    res.cookie('id', `${crypto.randomBytes(8).toString('hex')}`, cookieConfig)
   }
   // res.clearCookie('id');
   res.sendFile(path.join(__dirname, "../src/index.html"));
 });
+
+const cookieConfig = {
+  httpOnly: true, // to disable accessing cookie via client side js
+  maxAge: 1000000000, // ttl in ms (remove this option and cookie will die when browser is closed)
+  signed: true //  use  with the cookieParser secret
+};
 
 // any remaining requests with an extension (.js, .css, etc.) send 404
 app.use((req, res, next) => {

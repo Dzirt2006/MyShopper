@@ -4,8 +4,14 @@ const {User,Pool} = require('../db/models')
 module.exports=router;
 
 router.get('/',async (req,res,next)=>{
-    // console.log(req.cookies['id']);
-    console.log(req.JSONcookies);
-    
-    res.send(req.cookies.id);
+    console.log("cookie",req.signedCookies.id);
+    res.send();
 })
+
+
+
+//for not signed cookies
+function getcookie(req) {
+    const cookie = req.headers.cookie;
+    return cookie.split('; ');
+  }
