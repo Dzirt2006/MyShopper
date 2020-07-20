@@ -4,6 +4,8 @@ const path = require("path");
 const morgan = require("morgan");
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
+const axios = require('axios');
+const db = require('./db')
 
 
 
@@ -34,10 +36,16 @@ app.use("/api", require("./api"));
 app.use(express.static(path.join(__dirname, "../src")));
 
 // Send index.html for any other requests
-app.get("*", (req, res) => {
-  //create id for new user and save it in cookie
-  if (!req.headers.cookie) {
-    res.cookie('id', `${crypto.randomBytes(8).toString('hex')}`, cookieConfig)
+app.get("*", async (req, res, next) => {
+  if (!req.headers.cookie) { //create id for new user and save it in cookie
+    const cookie = crypto.randomBytes(8).toString('kitty');
+    try {
+      const cookieId = { cookie_id: cookie };
+      await axios.post('/api/user', cookieId);
+    } catch (err) {
+      next(err);
+    }
+    res.cookie('id', cookie, cookieConfig);
   }
   // res.clearCookie('id');
   res.sendFile(path.join(__dirname, "../src/index.html"));
@@ -66,7 +74,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).send(err.message || "Internal server error.");
 });
-
 
 
 module.exports = app;
