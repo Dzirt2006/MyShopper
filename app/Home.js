@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import NewPool from './CreatePool';
 import axios from 'axios';
 
 export default function Home() {
@@ -24,15 +25,13 @@ export default function Home() {
 
     console.log('User', user);
 
-    const onClickHandler =async () => {
-        
-    }
+    
 
     return (
         <div>
             <center><header> Welcome to MyShopper!</header></center>
-            
-            <button onClick={()=>onClickHandler}> New pool </button>
+            <NewPool/>
+            <button onClick={()=>onClickHandler()}> New pool </button>
         </div>
     )
 }

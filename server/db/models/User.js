@@ -3,7 +3,7 @@ const db = require('../db')
 
 
 module.exports = db.define('user', {
-  name: {
+  userName: {
     type: Sequelize.STRING
   },
   cookie_id: {
