@@ -5,7 +5,8 @@ const morgan = require("morgan");
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const axios = require('axios');
-const db = require('./db')
+const compression = require('compression')
+const { green, red } = require('chalk');
 
 
 
@@ -19,7 +20,11 @@ const session = require('express-session');
 //   })
 // )
 
+//signed cookie
 app.use(cookieParser(`${process.env.COOKIE_SECRET}`));
+
+//use compression middleware for increasing perfomance
+app.use(compression());
 
 // logging middleware
 app.use(morgan("dev"));
@@ -38,21 +43,22 @@ app.use(express.static(path.join(__dirname, "../src")));
 // Send index.html for any other requests
 app.get("*", async (req, res, next) => {
   if (!req.headers.cookie) { //create id for new user and save it in cookie
-    const cookie = crypto.randomBytes(8).toString('kitty');
-    try {
-      const cookieId = { cookie_id: cookie };
-      await axios.post('/api/user', cookieId);
-    } catch (err) {
-      next(err);
-    }
-    res.cookie('id', cookie, cookieConfig);
+    const cookie = crypto.randomBytes(8).toString('hex');
+    // try {
+    //   const cookieId = { cookie_id: cookie };
+    //   await axios.post('/api/user/', cookieId);
+    //   console.log(green("User created Succesfully"))
+    // } catch (err) {
+    //   next(err);
+    // }
+    res.cookie('id', cookie, cookieConfig)
   }
   // res.clearCookie('id');
   res.sendFile(path.join(__dirname, "../src/index.html"));
 });
 
 const cookieConfig = {
-  httpOnly: true, // to disable accessing cookie via client side js
+  httpOnly: false, // to disable accessing cookie via client side js
   maxAge: 1000000000, // ttl in ms (remove this option and cookie will die when browser is closed)
   signed: true //  use  with the cookieParser secret
 };

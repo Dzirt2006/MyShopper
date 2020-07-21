@@ -13,4 +13,7 @@ const db = new Sequelize(
         logging: false
     }
 )
+
+// Sequelize.sync({force:true});
+
 module.exports = db;
