@@ -7,9 +7,9 @@ async function seed() {
     await User.create({ cookie_id: 111 })
     // .then(data => data.createPool({ name: "hz" })).then(d => { console.log(d) });
     await User.findOne({ where: { cookie_id: "111" } })
-    .then(i => i.createPool({ poolName: "hz" }));
+        .then(i => i.createPool({ poolName: "hz" }));
     // .then(i => {console.log(i.__proto__)});
-    await User.findOne({ where: { cookie_id: "111" },include:[Pool] }).then(i => {console.log(i)});
+    await User.findOne({ where: { cookie_id: "111" }, include: [Pool] }).then(i => { console.log(i) });
 }
 
 async function runSeed() {
