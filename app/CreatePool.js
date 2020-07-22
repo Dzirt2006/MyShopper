@@ -6,9 +6,10 @@ export default function NewPool(props){
     const [name,setName]=useState(null);
 
     async function onClickHandler(event){
-        event.preventDefault()
-        await axios.get('/api/user/')
-        .then(async data =>console.log(data.__proto__));
+        // event.preventDefault();
+        console.log(name)
+        await axios.post('/api/pool/',{poolName:name});
+       
     }
 
     function onChangeEv(event){
