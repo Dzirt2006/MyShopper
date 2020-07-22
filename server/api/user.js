@@ -9,8 +9,10 @@ router.get('/', async (req, res, next) => {
     const cookieId = req.signedCookies.id ? req.signedCookies.id : null;
     console.log("IN", cookieId)
     try {
-        data = await User.findOne({ where: { cookie_id: cookieId },include:[Pool] })
-        res.json(data);
+        data = await User.findOne({ where: { cookie_id: cookieId }, include: [Pool] })
+        const userName = !!data.userName ? data.userName : "not named yet =(";
+        const respondData = { name: userName, pools: data.pools };
+        res.json(respondData);
     } catch (err) {
         console.log(red("Can't fetch User", next(err)));
     }

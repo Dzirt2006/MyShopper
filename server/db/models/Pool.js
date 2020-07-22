@@ -3,11 +3,11 @@ const db = require('../db')
 
 
 module.exports = db.define('pool', {
-    users: {
+    usersQ: {
         type: Sequelize.INTEGER,
         defaultValue: 1
     },
-    name:{
+    poolName:{
         type:Sequelize.STRING,
         allowNull:false
     }
