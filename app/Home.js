@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NewPool from './CreatePool';
+import Pools from './PoolsShortcut';
 import axios from 'axios';
 
 export default function Home() {
@@ -25,13 +26,24 @@ export default function Home() {
 
     console.log('User', user);
 
-    
 
-    return (
-        <div>
-            <center><header> Welcome to MyShopper!</header></center>
-            <NewPool/>
-            <button onClick={()=>onClickHandler()}> New pool </button>
-        </div>
-    )
+    if (user.name) {
+        return (
+            <div>
+                <center><header> Welcome to MyShopper!</header></center>
+                <NewPool />
+                <button onClick={() => onClickHandler()}> New pool </button>
+                {user.pools.length>0 &&
+                    <div id='pools_list'>
+                        {user.pools.map(pool => (<Pools poolInfo={pool} />))}
+                    </div>
+                }
+            </div>
+        )
+    } else {
+        return (
+            <p>Loading...</p>
+        )
+    }
+
 }
