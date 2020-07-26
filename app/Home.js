@@ -22,21 +22,22 @@ export default function Home() {
             }
             fetchUser();
         }
+        
     }, [])
+    
 
-    console.log('User', user);
-
-
+    console.log('lists',lists);
     if (user.name) {
         return (
             <div>
                 <center><header> Welcome to MyShopper!</header></center>
-                <NewPool />
+                <NewPool setter={setLists} poolsArr={lists} />
                 <button onClick={() => onClickHandler()}> New pool </button>
-                {user.pools.length>0 &&
-                    <div id='pools_list'>
-                        {user.pools.map(pool => (<Pools poolInfo={pool} />))}
-                    </div>
+                {lists.length > 0 &&
+                    lists.map(pool => (
+                        <div id='pools_list' key={pool.id}>
+                            <Pools poolInfo={pool} />
+                        </div>))
                 }
             </div>
         )
@@ -45,5 +46,4 @@ export default function Home() {
             <p>Loading...</p>
         )
     }
-
 }

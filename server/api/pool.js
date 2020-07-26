@@ -11,6 +11,8 @@ router.post('/', async (req, res, next) => {
     try {
         data = await User.findOne({ where: { cookie_id: cookieId }})
         .then(user=>user.createPool(poolName))
+        // .then(pool=>console.log(pool))
+        .then(pool=>res.json({id:pool.id,poolName:pool.poolName}));
         
     } catch (err) {
         console.log(red("Can't fetch User", next(err)));
