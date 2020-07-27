@@ -4,12 +4,14 @@ import axios from 'axios';
 export default function NewPool(props){
 
     const [name,setName]=useState(null);
+    const pools=props.poolsArr;
+    const setPool=props.setter;
 
     async function onClickHandler(event){
-        // event.preventDefault();
-        console.log(name)
-        await axios.post('/api/pool/',{poolName:name});
-       
+        event.preventDefault();
+        await axios.post('/api/pool/',{poolName:name})
+        .then(pool=>{setPool([...pools,pool.data])}); 
+          
     }
 
     function onChangeEv(event){
