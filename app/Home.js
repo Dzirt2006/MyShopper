@@ -22,15 +22,14 @@ export default function Home() {
             }
             fetchUser();
         }
-        
-    }, [])
-    
 
-    console.log('lists',lists);
+    }, [])
+
+
+    console.log('lists', lists);
     if (user.name) {
         return (
             <div>
-                <center><header> Welcome to MyShopper!</header></center>
                 <NewPool setter={setLists} poolsArr={lists} />
                 <button onClick={() => onClickHandler()}> New pool </button>
                 {lists.length > 0 &&

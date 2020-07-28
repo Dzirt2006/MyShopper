@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 
 export default function NewPool(props){
 
+    const history= useHistory();
     const [name,setName]=useState(null);
     const pools=props.poolsArr;
     const setPool=props.setter;
@@ -10,7 +12,11 @@ export default function NewPool(props){
     async function onClickHandler(event){
         event.preventDefault();
         await axios.post('/api/pool/',{poolName:name})
-        .then(pool=>{setPool([...pools,pool.data])}); 
+        .then(pool=>{
+            // console.log('!!!',pool)
+            setPool([...pools,pool.data]);
+            history.push(`/pool/${pool.data.id}`)//crypt id
+        }); 
           
     }
 
