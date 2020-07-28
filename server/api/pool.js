@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { green, red } = require('chalk');
-const { User, Pool } = require('../db/models');
+const { User, Pool,Product } = require('../db/models');
 const axios = require('axios');
 module.exports = router;
 
@@ -16,5 +16,16 @@ router.post('/', async (req, res, next) => {
         
     } catch (err) {
         console.log(red("Can't fetch User", next(err)));
+    }
+})
+
+
+router.get('/:id',async (req,res,next)=>{
+    const id=req.params.id;
+    try{
+        await Pool.findOne({where:{id:id},include:[Product]})
+        .then(data=>res.json(data));
+    }catch(err){
+        console.log(red("Can't fetch Pool by ID", next(err)));
     }
 })
