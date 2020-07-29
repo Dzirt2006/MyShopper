@@ -13,7 +13,6 @@ export default function NewPool(props){
         event.preventDefault();
         await axios.post('/api/pool/',{poolName:name})
         .then(pool=>{
-            // console.log('!!!',pool)
             setPool([...pools,pool.data]);
             history.push(`/pool/${pool.data.id}`)//crypt id
         }); 
