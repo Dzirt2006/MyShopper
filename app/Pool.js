@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 import axios from 'axios';
 
 
 export default function Pool() {
     const [name, setName] = useState(null);
-
+    const id = useParams().id;
 
     useEffect(() => {
-        console.log(this.props);
-        const id = this.props.match.params.id;
-        
         const getPool = async () => {
             await axios.get(`/api/pool/${id}`)
                 .then(data => setName(data));
@@ -20,7 +18,6 @@ export default function Pool() {
 
     async function onClickHandler(event) {
         event.preventDefault();
-
     }
 
     function onChangeEv(event) {
