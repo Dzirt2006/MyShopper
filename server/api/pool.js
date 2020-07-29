@@ -7,7 +7,6 @@ module.exports = router;
 router.post('/', async (req, res, next) => {
     const cookieId = req.signedCookies.id ? req.signedCookies.id : null;
     const poolName = req.body;
-    console.log("IN", cookieId, 'body', poolName);
     try {
         data = await User.findOne({ where: { cookie_id: cookieId } })
             .then(user => user.createPool(poolName))
@@ -27,3 +26,5 @@ router.get('/:id', async (req, res, next) => {
         console.log(red("Can't fetch Pool by ID", next(err)));
     }
 })
+
+
