@@ -14,7 +14,7 @@ export default function NewPool(props){
         await axios.post('/api/pool/',{poolName:name})
         .then(pool=>{
             setPool([...pools,pool.data]);
-            history.push(`/pool/${pool.data.id}`)//crypt id
+            history.push(`/pool/${pool.data.id}`)
         }); 
           
     }

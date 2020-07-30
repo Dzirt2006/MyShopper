@@ -1,17 +1,36 @@
 const Sequelize = require('sequelize');
 const db = require('../db')
+const Pool = require('./Pool');
 
 
-module.exports = db.define('product', {
-    name: {
+
+const Product = db.define('product', {
+    productName: {
         type: Sequelize.STRING
     },
     quantity: {
         type: Sequelize.INTEGER,
-        defaultValue: 1
+        defaultValue: 1,
+        validate: {
+            min: 1
+        }
     },
     status: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
+    },
+    poolId: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: Pool,
+            key: 'id'
+        }
     }
 })
+
+Product.addHook('beforeValidate', async (product, options) => {
+    // const products = await Product.findAll({ attributes: ['productName'], where: { poolId: product.dataValues.poolId } });
+   
+});
+
+module.exports = Product;
