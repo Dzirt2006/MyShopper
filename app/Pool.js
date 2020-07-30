@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export default function Pool() {
     const [products, setProducts] = useState([]);
-    const [product, setProduct] = useState({ productName: '', quantity: 0 });
+    const [product, setProduct] = useState({ productName: '', quantity: 1 });
     const id = useParams().id;
 
     useEffect(() => {
@@ -21,7 +21,7 @@ export default function Pool() {
         event.preventDefault();
         await axios.post(`/api/product/${id}`, product)
             .then(data => setProducts([...products, data.data]));
-        setProduct({ productName: '', quantity: 0 });
+        setProduct({ productName: '', quantity: 0});
     }
 
     function onChangeEv(event) {
