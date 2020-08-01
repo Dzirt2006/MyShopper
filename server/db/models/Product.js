@@ -6,7 +6,12 @@ const Pool = require('./Pool');
 
 const Product = db.define('product', {
     productName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: {
+            args: true,
+            msg: 'product already exist!'
+        }
     },
     quantity: {
         type: Sequelize.INTEGER,
@@ -30,7 +35,7 @@ const Product = db.define('product', {
 
 Product.addHook('beforeValidate', async (product, options) => {
     // const products = await Product.findAll({ attributes: ['productName'], where: { poolId: product.dataValues.poolId } });
-   
+
 });
 
 module.exports = Product;
