@@ -34,6 +34,9 @@ const Product = db.define('product', {
 })
 
 
+//this hook checks is it any record in the table 
+//with the same Name and poolId
+// if true ->trow error
 
 Product.addHook('beforeValidate', async (product, options) => {
     const productSearch = product.dataValues.productName;
@@ -44,7 +47,6 @@ Product.addHook('beforeValidate', async (product, options) => {
             throw new Error('product already exist!');
         }
     })
-
 });
 
 module.exports = Product;
