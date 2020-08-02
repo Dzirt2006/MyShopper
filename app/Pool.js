@@ -20,8 +20,11 @@ export default function Pool() {
     async function onClickHandler(event) {
         event.preventDefault();
         await axios.post(`/api/product/${id}`, product)
-            .then(data => setProducts([...products, data.data]));
-        setProduct({ productName: '', quantity: 0});
+            .then(data => setProducts([...products, data.data]))
+            .catch((error) => {
+                alert(`${product.productName} is already in your Pool`) // this will log an empty object with an error property
+            })
+        setProduct({ productName: '', quantity: 0 });
     }
 
     function onChangeEv(event) {

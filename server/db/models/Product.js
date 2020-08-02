@@ -6,7 +6,12 @@ const Pool = require('./Pool');
 
 const Product = db.define('product', {
     productName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        // unique: {
+        //     args: true,//fix for poolID
+        //     msg: 'product already exist!'
+        // }
     },
     quantity: {
         type: Sequelize.INTEGER,
@@ -28,9 +33,20 @@ const Product = db.define('product', {
     }
 })
 
+
+//this hook checks is it any record in the table 
+//with the same Name and poolId
+// if true ->trow error
+
 Product.addHook('beforeValidate', async (product, options) => {
-    // const products = await Product.findAll({ attributes: ['productName'], where: { poolId: product.dataValues.poolId } });
-   
+    const productSearch = product.dataValues.productName;
+    const idSearch = product.dataValues.poolId;
+    await Product.findAll({ attributes: ['productName'], where: { poolId: idSearch, productName: productSearch } })
+    .then(data=>{
+        if(data[0]){
+            throw new Error('product already exist!');
+        }
+    })
 });
 
 module.exports = Product;
