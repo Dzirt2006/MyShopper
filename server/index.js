@@ -8,16 +8,13 @@ const axios = require('axios');
 const compression = require('compression')
 const { green, red } = require('chalk');
 
+const db = require('./db');
+const PORT = process.env.PORT || 8000;
+const http = require('http');
+const server = http.createServer(app);
+const socketIO = require('socket.io');
+const io = socketIO(server);
 
-const session = require('express-session');
-// app.use(
-//   session({
-//     UUID: crypto.randomBytes(64).toString('hex'),
-//     secret: process.env.SESSION_SECRET || 'Shh, its a secret!',
-//     resave: false,
-//     saveUninitialized: false
-//   })
-// )
 
 //signed cookie
 app.use(cookieParser(`${process.env.COOKIE_SECRET}`));
@@ -74,4 +71,20 @@ app.use((err, req, res, next) => {
 });
 
 
-module.exports = app;
+io.on('connection', socket => {
+  console.log('User connected')
+  socket.on('disconnect', () => {
+    console.log('user disconnected')
+  })
+})
+
+
+db.sync().then(() => {
+    console.log('db synced');
+    server.listen(PORT, () =>
+        console.log(`studiously serving silly sounds on port http://localhost:${PORT}`)
+    );
+})
+
+
+// module.exports = app;
