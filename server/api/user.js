@@ -5,7 +5,7 @@ const axios = require('axios');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
-    const cookieId = req.signedCookies.id ? req.signedCookies.id : null;
+    const cookieId =req.signedCookies.id ? req.signedCookies.id : null;
     try {
         data = await User.findOne({ where: { cookie_id: cookieId }, include: [Pool] })
         if (!!data) {

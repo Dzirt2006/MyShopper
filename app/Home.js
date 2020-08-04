@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NewPool from './CreatePool';
 import Pools from './PoolsShortcut';
 import axios from 'axios';
+import socketIOClient from "socket.io-client";
 
 export default function Home() {
     const [user, setUser] = useState({});
@@ -27,6 +28,8 @@ export default function Home() {
 
 
     console.log('lists', lists);
+
+    const socket = socketIOClient("localhost:8000");
     if (user.name) {
         return (
             <div>

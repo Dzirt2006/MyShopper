@@ -9,7 +9,6 @@ const compression = require('compression')
 const { green, red } = require('chalk');
 
 
-
 const session = require('express-session');
 // app.use(
 //   session({
@@ -44,13 +43,6 @@ app.use(express.static(path.join(__dirname, "../src")));
 app.get("*", async (req, res, next) => {
   if (!req.headers.cookie) { //create id for new user and save it in cookie
     const cookie = crypto.randomBytes(8).toString('hex');
-    // try {
-    //   const cookieId = { cookie_id: cookie };
-    //   await axios.post('/api/user/', cookieId);
-    //   console.log(green("User created Succesfully"))
-    // } catch (err) {
-    //   next(err);
-    // }
     res.cookie('id', cookie, cookieConfig)
   }
   // res.clearCookie('id');
