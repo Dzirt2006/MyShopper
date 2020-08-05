@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import NewPool from './CreatePool';
 import Pools from './PoolsShortcut';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { fetchUser, newUser } from './store/userReducer';
 
 
 
- 
+
 
 const URL = 'ws://localhost:8000';
 const ws = new WebSocket(URL);
 
 
-export default function Home() {
+function Home(props){
     const [user, setUser] = useState({});
     const [lists, setLists] = useState([]);
 
     useEffect(() => {
+        props.fetchUser();
         ws.onopen = () => {
             // on connecting, do nothing but log it to the console
             console.log('connected')
-          }
+        }
         if (!user.id) {
             async function fetchUser() {
                 await axios.get('/api/user/')
@@ -37,20 +39,21 @@ export default function Home() {
 
     }, [])
 
-    function onClickHandler(event){
-       
-            ws.send(lists);
-          
+    function onClickHandler(event) {
+
+        ws.send(lists);
+
     }
 
     ws.addEventListener('message', function (event) {
+    
         console.log('Message from server ', event.data);
     });
 
 
     console.log('lists', lists);
 
-   // const socket = socketIOClient("localhost:8000");
+    // const socket = socketIOClient("localhost:8000");
     if (user.name) {
         return (
             <div>
@@ -70,3 +73,23 @@ export default function Home() {
         )
     }
 }
+
+const mapState = state => {
+    console.log('STATE: ', state);
+    return {
+      user: state.user,
+    };
+  };
+
+
+  
+  const mapDispatch = dispatch => ({
+    fetchUser: () => dispatch(fetchUser()),
+    newUser: () => dispatch(newUser())
+  });
+
+
+export default connect(
+    mapState,
+    mapDispatch
+)(Home);

@@ -10,31 +10,31 @@ const { green, red } = require('chalk');
 
 const db = require('./db');
 
-const PORT = process.env.PORT || 8000;
-const http = require('http');
-const WebSocket = require('ws');
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server })
+// const PORT = process.env.PORT || 8000;
+// const http = require('http');
+// const WebSocket = require('ws');
+// const server = http.createServer(app);
+// const wss = new WebSocket.Server({ server })
 
-const users = [];
+// const users = [];
 
-wss.on('connection', function connection(ws,req) {
-  console.log(req.headers.cookie)
-  wss.clients.forEach(function each(client) {
-    if (client !== ws && client.readyState === WebSocket.OPEN) {
-      client.send("room: User " + req.headers.origin + " joined!");
-    }
-  })
-  ws.on('message', function incoming(data) {
-    console.log('conected', data)
-    // ws.send('Hey HO!')
-    wss.clients.forEach(function each(client) {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(data);
-      }
-    })
-  })
-})
+// wss.on('connection', function connection(ws,req) {
+//   console.log(req.headers.cookie)
+//   wss.clients.forEach(function each(client) {
+//     if (client !== ws && client.readyState === WebSocket.OPEN) {
+//       client.send("room: User " + req.headers.origin + " joined!");
+//     }
+//   })
+//   ws.on('message', function incoming(data) {
+//     console.log('conected', data)
+//     // ws.send('Hey HO!')
+//     wss.clients.forEach(function each(client) {
+//       if (client !== ws && client.readyState === WebSocket.OPEN) {
+//         client.send(data);
+//       }
+//     })
+//   })
+// })
 
 
 //signed cookie
@@ -94,12 +94,12 @@ app.use((err, req, res, next) => {
 
 
 
-db.sync().then(() => {
-  console.log('db synced');
-  server.listen(PORT, () =>
-    console.log(`studiously serving silly sounds on port http://localhost:${PORT}`)
-  );
-})
+// db.sync().then(() => {
+//   console.log('db synced');
+//   server.listen(PORT, () =>
+//     console.log(`studiously serving silly sounds on port http://localhost:${PORT}`)
+//   );
+// })
 
 
-// module.exports = app;
+module.exports = app;
