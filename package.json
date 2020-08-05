@@ -45,6 +45,7 @@
     "react-dom": "^16.13.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "react-share": "^4.2.1",
     "sequelize": "^6.3.3",
     "ws": "^7.3.1"
   },

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
+import { VKShareButton,VKIcon } from "react-share";
 
 
 export default function Pool() {
@@ -37,6 +38,13 @@ export default function Pool() {
 
     return (
         <div>
+            <VKShareButton
+                className="network__share-button"
+                url={'http://localhost:8000'}
+                title={'title'}
+            >
+                <VKIcon size={32} />
+            </VKShareButton>
             <form onSubmit={onClickHandler}>
                 <input type="text" id="name" name="productName" value={product.productName}
                     onChange={onChangeEv} />
