@@ -9,11 +9,32 @@ const compression = require('compression')
 const { green, red } = require('chalk');
 
 const db = require('./db');
+
 const PORT = process.env.PORT || 8000;
 const http = require('http');
+const WebSocket = require('ws');
 const server = http.createServer(app);
-const socketIO = require('socket.io');
-const io = socketIO(server);
+const wss = new WebSocket.Server({ server })
+
+const users = [];
+
+wss.on('connection', function connection(ws,req) {
+  console.log(req.headers.cookie)
+  wss.clients.forEach(function each(client) {
+    if (client !== ws && client.readyState === WebSocket.OPEN) {
+      client.send("room: User " + req.headers.origin + " joined!");
+    }
+  })
+  ws.on('message', function incoming(data) {
+    console.log('conected', data)
+    // ws.send('Hey HO!')
+    wss.clients.forEach(function each(client) {
+      if (client !== ws && client.readyState === WebSocket.OPEN) {
+        client.send(data);
+      }
+    })
+  })
+})
 
 
 //signed cookie
@@ -71,19 +92,13 @@ app.use((err, req, res, next) => {
 });
 
 
-io.on('connection', socket => {
-  console.log('User connected')
-  socket.on('disconnect', () => {
-    console.log('user disconnected')
-  })
-})
 
 
 db.sync().then(() => {
-    console.log('db synced');
-    server.listen(PORT, () =>
-        console.log(`studiously serving silly sounds on port http://localhost:${PORT}`)
-    );
+  console.log('db synced');
+  server.listen(PORT, () =>
+    console.log(`studiously serving silly sounds on port http://localhost:${PORT}`)
+  );
 })
 
 
