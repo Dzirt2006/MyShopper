@@ -6,7 +6,7 @@ export default function NewPool(props){
 
     const history= useHistory();
     const [name,setName]=useState(null);
-    const pools=props.poolsArr;
+    
 
     async function onClickHandler(event){
         event.preventDefault();

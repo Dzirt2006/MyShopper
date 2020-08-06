@@ -13,7 +13,8 @@ const getUser = user => ({
 })
 const createUser = user => ({
     type: GET_USER,
-    name: user.name
+    name: user.name,
+    pools: user.pools
 })
 
 
@@ -41,7 +42,7 @@ const reducer = (state = initialState, action) => {
         case GET_USER:
             return { ...state, name: action.name, pools: action.pools };
         case CREATE_USER:
-            return { ...state, name: action.name,pools:[]};
+            return { ...state, name: action.name,pools: action.pools};
         default:
             return state;
     }

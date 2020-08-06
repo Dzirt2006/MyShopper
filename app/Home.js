@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import NewPool from './CreatePool';
 import Pools from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
-import { fetchUser, newUser } from './store/userReducer';
+import {  newUser } from './store/userReducer';
 
 
 
@@ -16,28 +16,17 @@ function Home(props) {
     const dispatch = useDispatch();
     const [user, setUser] = useState({});
     const [lists, setLists] = useState([]);
-    const isFirstRun = useRef(true);
+
 
 
     useEffect(() => {
-        if (isFirstRun.current) {
-            isFirstRun.current = false;
-        }
-        if (!props.user.name) {
             function gettUser() {
-                dispatch(fetchUser());
-            }
-            gettUser();
-        }
-        if (!props.user.name && !isFirstRun.current) {
-            function createUser() {
                 dispatch(newUser());
             }
             setTimeout(() => {
-                createUser();
+                gettUser();
             }, 20);
-        }
-
+        
 
         ws.onopen = () => {
             // on connecting, do nothing but log it to the console
@@ -62,7 +51,7 @@ function Home(props) {
     if (props.user.name) {
         return (
             <div>
-                <NewPool poolsArr={props.user.pools} />
+                <NewPool  />
                 <button onClick={() => onClickHandler()}> New pool </button>
                 {!!props.user.pools &&
                     props.user.pools.map(pool => (
@@ -88,13 +77,8 @@ const mapState = state => {
 
 
 
-const mapDispatch = dispatch => ({
-    // fetchUser: () => dispatch(fetchUser()),
-    // newUser: () => dispatch(newUser())
-});
 
 
 export default connect(
-    mapState,
-    mapDispatch
+    mapState,null
 )(Home);
