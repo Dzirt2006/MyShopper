@@ -19,7 +19,7 @@ function Pool(props) {
     async function onClickHandler(event) {
         event.preventDefault();
         dispatch(newProduct(id, product));
-        setProduct({ productName: '', quantity: 0 });
+        setProduct({ productName: '' });
     }
 
     function onChangeEv(event) {
