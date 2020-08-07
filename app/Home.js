@@ -14,10 +14,6 @@ const ws = new WebSocket(URL);
 
 function Home(props) {
     const dispatch = useDispatch();
-    const [user, setUser] = useState({});
-    const [lists, setLists] = useState([]);
-
-
 
     useEffect(() => {
             function gettUser() {
@@ -37,7 +33,7 @@ function Home(props) {
     }, [])
 
     function onClickHandler(event) {
-        ws.send(lists);
+        ws.send('hey yoy!');
     }
 
     ws.addEventListener('message', function (event) {
