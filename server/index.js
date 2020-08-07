@@ -8,17 +8,34 @@ const axios = require('axios');
 const compression = require('compression')
 const { green, red } = require('chalk');
 
+const db = require('./db');
 
+// const PORT = process.env.PORT || 8000;
+// const http = require('http');
+// const WebSocket = require('ws');
+// const server = http.createServer(app);
+// const wss = new WebSocket.Server({ server })
 
-const session = require('express-session');
-// app.use(
-//   session({
-//     UUID: crypto.randomBytes(64).toString('hex'),
-//     secret: process.env.SESSION_SECRET || 'Shh, its a secret!',
-//     resave: false,
-//     saveUninitialized: false
+// const users = [];
+
+// wss.on('connection', function connection(ws,req) {
+//   console.log(req.headers.cookie)
+//   wss.clients.forEach(function each(client) {
+//     if (client !== ws && client.readyState === WebSocket.OPEN) {
+//       client.send("room: User " + req.headers.origin + " joined!");
+//     }
 //   })
-// )
+//   ws.on('message', function incoming(data) {
+//     console.log('conected', data)
+//     // ws.send('Hey HO!')
+//     wss.clients.forEach(function each(client) {
+//       if (client !== ws && client.readyState === WebSocket.OPEN) {
+//         client.send(data);
+//       }
+//     })
+//   })
+// })
+
 
 //signed cookie
 app.use(cookieParser(`${process.env.COOKIE_SECRET}`));
@@ -44,13 +61,6 @@ app.use(express.static(path.join(__dirname, "../src")));
 app.get("*", async (req, res, next) => {
   if (!req.headers.cookie) { //create id for new user and save it in cookie
     const cookie = crypto.randomBytes(8).toString('hex');
-    // try {
-    //   const cookieId = { cookie_id: cookie };
-    //   await axios.post('/api/user/', cookieId);
-    //   console.log(green("User created Succesfully"))
-    // } catch (err) {
-    //   next(err);
-    // }
     res.cookie('id', cookie, cookieConfig)
   }
   // res.clearCookie('id');
@@ -80,6 +90,16 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).send(err.message || "Internal server error.");
 });
+
+
+
+
+// db.sync().then(() => {
+//   console.log('db synced');
+//   server.listen(PORT, () =>
+//     console.log(`studiously serving silly sounds on port http://localhost:${PORT}`)
+//   );
+// })
 
 
 module.exports = app;

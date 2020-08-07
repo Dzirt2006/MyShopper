@@ -1,39 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import NewPool from './CreatePool';
 import Pools from './PoolsShortcut';
-import axios from 'axios';
+import { connect, useDispatch } from 'react-redux';
+import {  newUser } from './store/userReducer';
 
-export default function Home() {
-    const [user, setUser] = useState({});
-    const [lists, setLists] = useState([]);
+
+
+
+
+const URL = 'ws://localhost:8000';
+const ws = new WebSocket(URL);
+
+
+function Home(props) {
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!user.id) {
-            async function fetchUser() {
-                await axios.get('/api/user/')
-                    .then(async data => {
-                        !!data.data ? (setUser(data.data), setLists(data.data.pools)) : await createUser()
-                    }
-                    );
+            function gettUser() {
+                dispatch(newUser());
             }
-            async function createUser() {
-                await axios.post('/api/user/')
-                    .then(data => { setUser(data.data) });
-            }
-            fetchUser();
+            setTimeout(() => {
+                gettUser();
+            }, 20);
+        
+
+        ws.onopen = () => {
+            // on connecting, do nothing but log it to the console
+            console.log('connected')
         }
+
 
     }, [])
 
+    function onClickHandler(event) {
+        ws.send('hey yoy!');
+    }
 
-    console.log('lists', lists);
-    if (user.name) {
+    ws.addEventListener('message', function (event) {
+        console.log('Message from server ', event.data);
+    });
+
+
+
+
+    // const socket = socketIOClient("localhost:8000");
+    if (props.user.name) {
         return (
             <div>
-                <NewPool setter={setLists} poolsArr={lists} />
+                <NewPool  />
                 <button onClick={() => onClickHandler()}> New pool </button>
-                {lists.length > 0 &&
-                    lists.map(pool => (
+                {!!props.user.pools &&
+                    props.user.pools.map(pool => (
                         <div id='pools_list' key={pool.id}>
                             <Pools poolInfo={pool} />
                         </div>))
@@ -46,3 +63,18 @@ export default function Home() {
         )
     }
 }
+
+const mapState = state => {
+    console.log('STATE: ', state.user);
+    return {
+        user: state.user,
+    };
+};
+
+
+
+
+
+export default connect(
+    mapState,null
+)(Home);

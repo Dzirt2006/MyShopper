@@ -3,6 +3,8 @@ const db = require('./server/db')
 const PORT = process.env.PORT || 8000;
 
 
+
+
 db.sync().then(() => {
     console.log('db synced');
     app.listen(PORT, () =>

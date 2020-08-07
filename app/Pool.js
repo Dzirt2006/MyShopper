@@ -1,42 +1,45 @@
 import React, { useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import axios from 'axios';
+import { VKShareButton, VKIcon } from "react-share";
+import { installPool, newProduct } from './store/poolReducer';
 
-
-export default function Pool() {
+function Pool(props) {
     const [products, setProducts] = useState([]);
     const [product, setProduct] = useState({ productName: '', quantity: 1 });
     const id = useParams().id;
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const getPool = async () => {
-            await axios.get(`/api/pool/${id}`)
-                .then(data => setProducts(data.data.products));
-        }
-        getPool();
+        dispatch(installPool(id));
     }, [])
 
 
     async function onClickHandler(event) {
         event.preventDefault();
-        await axios.post(`/api/product/${id}`, product)
-            .then(data => setProducts([...products, data.data]))
-            .catch((error) => {
-                alert(`${product.productName} is already in your Pool`) // this will log an empty object with an error property
-            })
-        setProduct({ productName: '', quantity: 0 });
+        dispatch(newProduct(id, product));
+        setProduct({ productName: '' });
     }
 
     function onChangeEv(event) {
         setProduct({ ...product, [event.target.name]: event.target.value });
+        console.log(product)
     }
 
 
 
-
+    console.log(props.products[0])
 
     return (
         <div>
+            <VKShareButton
+                className="network__share-button"
+                url={'http://localhost:8000'}
+                title={'title'}
+            >
+                <VKIcon size={32} />
+            </VKShareButton>
             <form onSubmit={onClickHandler}>
                 <input type="text" id="name" name="productName" value={product.productName}
                     onChange={onChangeEv} />
@@ -55,10 +58,21 @@ export default function Pool() {
                 <input type="submit" value="AddProduct" />
             </form>
             <br />
-            {products.length > 0 &&
-                products.map(product => (
+            {!!props.products &&
+                props.products.map(product => (
                     <div key={product.id}>{product.productName} qantity:{product.quantity} </div>
                 ))}
         </div>
     )
 }
+
+const mapState = state => {
+    console.log('state', state.pool)
+    return {
+        products: state.pool,
+    };
+};
+
+export default connect(
+    mapState, null
+)(Pool);
