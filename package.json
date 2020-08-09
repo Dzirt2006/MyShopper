@@ -4,7 +4,7 @@
   "description": "small cross platform app for join purchase",
   "main": "index.js",
   "scripts": {
-    "start-dev": "npm run build-watch & npm run start-server",
+    "start-dev": "npm run build-watch & npm run start-webSocket",
     "start-server": "nodemon main.js -e html,js,css --ignore public",
     "start-webSocket": "nodemon ./server/index.js -e html,js,css --ignore public",
     "build-watch": "webpack -w",
@@ -52,7 +52,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "sequelize": "^6.3.3",
-    "ws": "^7.3.1"
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",

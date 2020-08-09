@@ -1,53 +1,58 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import NewPool from './CreatePool';
 import Pools from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
-import {  newUser } from './store/userReducer';
+import { newUser } from './store/userReducer';
+
+import io from 'socket.io-client'
+
+const mainSocket = io(window.location.origin)
 
 
 
 
 
-const URL = 'ws://localhost:8000';
-const ws = new WebSocket(URL);
+// const URL = 'ws://localhost:8000';
+// const ws = new WebSocket(URL);
 
 
 function Home(props) {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-            function gettUser() {
-                dispatch(newUser());
-            }
-            setTimeout(() => {
-                gettUser();
-            }, 20);
-        
+    
 
-        ws.onopen = () => {
-            // on connecting, do nothing but log it to the console
-            console.log('connected')
+    useEffect(() => {
+        function gettUser() {
+            dispatch(newUser());
         }
+        setTimeout(() => {
+            gettUser();
+        }, 20);
+
+
+
 
 
     }, [])
 
     function onClickHandler(event) {
-        ws.send('hey yoy!');
+    
     }
 
-    ws.addEventListener('message', function (event) {
-        console.log('Message from server ', event.data);
-    });
+  
 
 
-
+    mainSocket.on('connect', () => {
+        console.log('Connected!')
+      })
 
     // const socket = socketIOClient("localhost:8000");
+    // socket.on('connect', () => console.log('We live'))
+
     if (props.user.name) {
         return (
             <div>
-                <NewPool  />
+                <NewPool />
                 <button onClick={() => onClickHandler()}> New pool </button>
                 {!!props.user.pools &&
                     props.user.pools.map(pool => (
@@ -76,5 +81,5 @@ const mapState = state => {
 
 
 export default connect(
-    mapState,null
+    mapState, null
 )(Home);

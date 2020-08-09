@@ -10,11 +10,16 @@ const { green, red } = require('chalk');
 
 const db = require('./db');
 
-// const PORT = process.env.PORT || 8000;
-// const http = require('http');
+const PORT = process.env.PORT || 8000;
+const socket = require('socket.io')
+
+const http = require('http');
 // const WebSocket = require('ws');
-// const server = http.createServer(app);
+const server = http.createServer(app);
 // const wss = new WebSocket.Server({ server })
+
+const io=socket(server);
+require('./socket')(io);
 
 // const users = [];
 
@@ -93,13 +98,14 @@ app.use((err, req, res, next) => {
 
 
 
+db.sync().then(() => {
+  console.log('db synced');
+  server.listen(PORT, () =>
+    console.log(`studiously serving silly sounds on port http://localhost:${PORT}`)
+  );
+})
 
-// db.sync().then(() => {
-//   console.log('db synced');
-//   server.listen(PORT, () =>
-//     console.log(`studiously serving silly sounds on port http://localhost:${PORT}`)
-//   );
-// })
+
 
 
 module.exports = app;
