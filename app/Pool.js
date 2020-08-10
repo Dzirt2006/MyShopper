@@ -2,14 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import { VKShareButton, VKIcon } from "react-share";
+import { EmailShareButton, EmailIcon } from "react-share";
 import { installPool, newProduct } from './store/poolReducer';
+import io from 'socket.io-client'
+const socket = io(window.location.origin)
+
 
 function Pool(props) {
     const [products, setProducts] = useState([]);
     const [product, setProduct] = useState({ productName: '', quantity: 1 });
     const id = useParams().id;
     const dispatch = useDispatch();
+
+
+    socket.emit('subscribe', id);
+    socket.on('joined', () => {
+        console.log('joined')
+    })
 
     useEffect(() => {
         dispatch(installPool(id));
@@ -29,17 +38,15 @@ function Pool(props) {
 
 
 
-    console.log(props.products[0])
-
     return (
         <div>
-            <VKShareButton
+            <EmailShareButton
                 className="network__share-button"
-                url={'http://localhost:8000'}
-                title={'title'}
+                url={`http://localhost:8000/ref/${id}`}
+                title={'Let\'s connect to my shopping pool!'}
             >
-                <VKIcon size={32} />
-            </VKShareButton>
+                <EmailIcon size={32} />
+            </EmailShareButton>
             <form onSubmit={onClickHandler}>
                 <input type="text" id="name" name="productName" value={product.productName}
                     onChange={onChangeEv} />
