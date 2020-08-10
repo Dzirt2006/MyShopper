@@ -20,9 +20,9 @@ const createUser = user => ({
 
 //thunk
 export const refUser = (pool_id) => async dispatch => {
-    await axios.post(`/api/user/${pool_id}`)
-    .then(user=>{console.log(user.__proto__)});
-    
+    const { data } = await axios.post(`/api/user/${pool_id}`)
+    const action = createUser(data);
+    dispatch(action);    
 }
 export const newUser = () => async dispatch => {
     const { data } = await axios.post('/api/user/');

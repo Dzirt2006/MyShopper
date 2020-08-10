@@ -9,7 +9,7 @@ const Routes = () => {
         <Router>
             <div> <center><h2>Welcome to MyShopper!</h2></center></div>
             <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/:id" component={Home} />
                 <Route path="/pool/:id" component={Pool} />
                 <Route path="/ref/:id" component={Refferal} />
                 {/* <Route component={Error} />  add error */}

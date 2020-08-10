@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import NewPool from './CreatePool';
 import Pools from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
-import { newUser } from './store/userReducer';
-
+import { newUser, refUser } from './store/userReducer';
+import { useParams } from 'react-router';
 import io from 'socket.io-client'
 
 const mainSocket = io(window.location.origin)
@@ -18,17 +18,25 @@ const mainSocket = io(window.location.origin)
 
 function Home(props) {
     const dispatch = useDispatch();
+    const id = useParams().id;
 
-    
 
     useEffect(() => {
         function gettUser() {
             dispatch(newUser());
         }
-        setTimeout(() => {
-            gettUser();
-        }, 20);
-
+        function getRefUser() {
+            dispatch(refUser(id));
+        }
+        if (id) {
+            setTimeout(() => {
+                getRefUser();
+            }, 20);
+        } else {
+            setTimeout(() => {
+                gettUser();
+            }, 20);
+        }
 
 
 
@@ -36,15 +44,15 @@ function Home(props) {
     }, [])
 
     function onClickHandler(event) {
-    
+
     }
 
-  
+
 
 
     mainSocket.on('connect', () => {
         console.log('Connected!')
-      })
+    })
 
     // const socket = socketIOClient("localhost:8000");
     // socket.on('connect', () => console.log('We live'))

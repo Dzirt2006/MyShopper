@@ -44,13 +44,16 @@ router.get('/all', async (req, res, next) => {
 router.post('/:id?', async (req, res, next) => {
     const cookieId = { cookie_id: req.signedCookies.id };
     try {
-        const data = await User.findOrCreate({ where: cookieId, include: [Pool] })
-        const userName = !!data[0].userName ? data[0].userName : "not named yet =(";     
+        let data;
         if (req.params.id) {
-            const pool=await Pool.findOne({ where: { id: req.params.id } });
+            const pool = await Pool.findOne({ where: { id: req.params.id } });
             await User.findOrCreate({ where: cookieId })
-            .then(user=>user[0].addPool(pool))
+                .then(user => user[0].addPool(pool))
+            data = await User.findOrCreate({ where: cookieId, include: [Pool] })
+        } else {
+            data = await User.findOrCreate({ where: cookieId, include: [Pool] }) 
         }
+        const userName = !!data[0].userName ? data[0].userName : "not named yet =(";//fix,delete
         const respondData = { name: userName, pools: data[0].pools };
         res.json(respondData);
     } catch (err) {
