@@ -4,6 +4,8 @@ import { refUser } from './store/userReducer';
 import { useParams } from 'react-router';
 
 function Ref(props) {
+
+    //delete this component on deploy
     const dispatch = useDispatch();
     const id = useParams().id;
     

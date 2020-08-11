@@ -15,13 +15,9 @@ function Pool(props) {
     const dispatch = useDispatch();
 
 
-    socket.emit('subscribe', id);
-    socket.on('joined', () => {
-        console.log('joined')
-    })
 
     useEffect(() => {
-        dispatch(installPool(id));
+        dispatch(installPool(id));   
     }, [])
 
 
@@ -33,16 +29,28 @@ function Pool(props) {
 
     function onChangeEv(event) {
         setProduct({ ...product, [event.target.name]: event.target.value });
-        console.log(product)
     }
 
+
+
+    socket.on('connect', () => {
+        console.log('Connected!')
+        socket.emit('subscribe', id);
+        console.log('joined to ',id)
+    })
+
+    
+ 
+    socket.on('message', function(data) {
+   console.log('Incoming message:', data);
+});
 
 
     return (
         <div>
             <EmailShareButton
                 className="network__share-button"
-                url={`http://localhost:8000/ref/${id}`}
+                url={`http://localhost:8000/${id}`}
                 title={'Let\'s connect to my shopping pool!'}
             >
                 <EmailIcon size={32} />

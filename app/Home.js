@@ -10,12 +10,6 @@ const mainSocket = io(window.location.origin)
 
 
 
-
-
-// const URL = 'ws://localhost:8000';
-// const ws = new WebSocket(URL);
-
-
 function Home(props) {
     const dispatch = useDispatch();
     const id = useParams().id;
