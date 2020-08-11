@@ -7,9 +7,12 @@ module.exports = io => {
     socket.on('subscribe', (pool) => { 
       console.log('joining pool', pool);    
       socket.join(pool);
-   
-      socket.to(pool).emit('message','what is going on, party people?');
+      socket.emit('message','what is going on, party people?');
     })
+
+    socket.on('message', function(data) {
+      io.to(Object.keys(socket.rooms)[0]).emit('message',data);
+   });
 
   })
 }
