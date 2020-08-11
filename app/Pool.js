@@ -17,7 +17,8 @@ function Pool(props) {
 
 
     useEffect(() => {
-        dispatch(installPool(id));   
+        dispatch(installPool(id)); 
+        socket.emit('subscribe', id);  
     }, [])
 
 
@@ -36,7 +37,7 @@ function Pool(props) {
 
     socket.on('connect', () => {
         console.log('Connected!')
-        socket.emit('subscribe', id);
+        
         console.log('joined to ',id)
     })
 

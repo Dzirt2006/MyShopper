@@ -13,6 +13,7 @@ module.exports = io => {
     socket.on('message', function(data) {
       io.to(Object.keys(socket.rooms)[0]).emit('message',data);
    });
+ 
 
   })
 }
