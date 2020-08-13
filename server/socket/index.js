@@ -4,14 +4,17 @@ module.exports = io => {
 
     socket.on('disconnect', () => console.log('Connection was lost'))
 
-    socket.on('subscribe', (pool) => { 
-      console.log('joining pool', pool);    
+    socket.on('subscribe', (pool) => {    
       socket.join(pool);
       socket.emit('message','what is going on, party people?');
     })
 
     socket.on('product_added', function() {
       io.to(Object.keys(socket.rooms)[0]).emit('product_added');
+    });
+
+      socket.on('status_changed', function() {
+        io.to(Object.keys(socket.rooms)[0]).emit('status_changed');
    });
  
 

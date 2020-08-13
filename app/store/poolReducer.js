@@ -17,7 +17,7 @@ const addProduct=product=>({
 
 
 //thunk
-export const installPool = (id) => async dispatch => {//not in use, clear on deploy
+export const installPool = (id) => async dispatch => {
     const { data } = await axios.get(`/api/pool/${id}`);
     const action = setPool(data);
     dispatch(action);
@@ -29,6 +29,10 @@ export const newProduct = (id,product) => async dispatch => {
             })
     const action = addProduct(data);
     dispatch(action);
+}
+export const changeBoughtStatus = (prdctId,product) => async dispatch =>{
+    await axios.put(`api/product/${prdctId}`,product);
+    //don't need to dispatch because socket broadcast will dispatch SET_POOL
 }
 
 //initial state

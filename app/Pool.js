@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import { EmailShareButton, EmailIcon } from "react-share";
-import { installPool, newProduct } from './store/poolReducer';
+import { installPool, newProduct, changeBoughtStatus } from './store/poolReducer';
 import io from 'socket.io-client'
 const socket = io()
 
@@ -36,6 +36,12 @@ function Pool(props) {
             dispatch(installPool(id));
             console.log("product added");
         });
+
+        socket.on('status_changed', function () {
+            dispatch(installPool(id));
+            console.log("status_changed");
+        });
+
         //    ()=>{socket.removeAllListeners()}
     }, [socket])
 
@@ -53,11 +59,17 @@ function Pool(props) {
 
     async function statusChangeHandler(event) {
         event.preventDefault();
-        const id = event.target.id
-        console.log(event.target.defaultChecked )
-        event.target.defaultChecked = !event.target.defaultChecked
-        console.log(event.target.defaultChecked )
-        console.log(id)
+        const idProduct = parseInt(event.target.id)
+        const productJSON = props.products.filter(product => product.id === idProduct)[0];
+        await dispatch(changeBoughtStatus(idProduct,
+            {
+                id: productJSON.id,
+                poolId: productJSON.poolId,
+                productName: productJSON.productName,
+                quantity: productJSON.quantity,
+                status: !productJSON.status
+            }))
+        socket.emit('status_changed')//this will cause status_change event on server->server emit status_changed on client->this emit will dispatch set pool and rerender
     }
 
     return (
@@ -91,7 +103,7 @@ function Pool(props) {
                 props.products.map(product => (
                     <form key={product.id} >
                         {product.productName}    qantity:{product.quantity}
-                        <input id={product.id} type="checkbox" name="boughtStatus" defaultChecked={product.status} onChange={statusChangeHandler}/>
+                        <input id={product.id} type="checkbox" name="boughtStatus" checked={product.status} onChange={statusChangeHandler} />
                     </form>
                 ))}
         </div>

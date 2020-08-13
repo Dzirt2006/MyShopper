@@ -17,12 +17,12 @@ router.post('/:id', async (req, res, next) => {
     }
 })
 
-router.put('/:id',async (req,res,next)=>{
-    const id = req.params.id;  //product id
-try{
-    await Product.update(req.body,{where:{id:id}})
-    .then(data=>res.json(data));
-}catch(err){
-    next(err);
-}
+router.put('/:prdctId', async (req, res, next) => {
+    const prdctId = req.params.prdctId;  //product id
+    try {
+        await Product.update(req.body, { where: { id: prdctId } })
+            .then(data => res.json(data));
+    } catch (err) {
+        console.log('Can not modify product', next(err));
+    }
 })
