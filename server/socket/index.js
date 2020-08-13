@@ -10,8 +10,8 @@ module.exports = io => {
       socket.emit('message','what is going on, party people?');
     })
 
-    socket.on('message', function(data) {
-      io.to(Object.keys(socket.rooms)[0]).emit('message',data);
+    socket.on('product_added', function() {
+      io.to(Object.keys(socket.rooms)[0]).emit('product_added');
    });
  
 

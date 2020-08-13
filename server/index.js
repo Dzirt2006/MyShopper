@@ -64,8 +64,9 @@ app.use(express.static(path.join(__dirname, "../src")));
 
 // Send index.html for any other requests
 app.get("*", async (req, res, next) => {
-  if (!req.headers.cookie) { //create id for new user and save it in cookie
+  if (!req.signedCookies.id) { //create id for new user and save it in cookie
     const cookie = crypto.randomBytes(8).toString('hex');
+
     res.cookie('id', cookie, cookieConfig)
   }
   // res.clearCookie('id');

@@ -5,11 +5,22 @@ import axios from 'axios';
 import { EmailShareButton, EmailIcon } from "react-share";
 import { installPool, newProduct } from './store/poolReducer';
 import io from 'socket.io-client'
-const socket = io(window.location.origin)
+const socket = io()
 
+
+
+socket.on('connect', () => {
+    console.log('Connected!')
+    console.log('joined to ')
+})
+
+
+
+// socket.on('product_added', function() {
+// console.log("product added");
+// });
 
 function Pool(props) {
-    const [products, setProducts] = useState([]);
     const [product, setProduct] = useState({ productName: '', quantity: 1 });
     const id = useParams().id;
     const dispatch = useDispatch();
@@ -17,15 +28,22 @@ function Pool(props) {
 
 
     useEffect(() => {
-        dispatch(installPool(id)); 
-        socket.emit('subscribe', id);  
-    }, [])
+        dispatch(installPool(id));
+        console.log('action')
+        socket.emit('subscribe', id);
+
+        socket.on('product_added', function () {
+            dispatch(installPool(id));
+            console.log("product added");
+        });
+        //    ()=>{socket.removeAllListeners()}
+    }, [socket])
 
 
     async function onClickHandler(event) {
         event.preventDefault();
-        dispatch(newProduct(id, product));
-        socket.emit('message',product);
+        await dispatch(newProduct(id, product));
+        socket.emit('product_added', product);
         setProduct({ productName: '' });
     }
 
@@ -33,20 +51,14 @@ function Pool(props) {
         setProduct({ ...product, [event.target.name]: event.target.value });
     }
 
-
-
-    socket.on('connect', () => {
-        console.log('Connected!')
-        
-        console.log('joined to ',id)
-    })
-
-    
- 
-    socket.on('message', function(data) {
-   console.log('Incoming message:', data);
-});
-
+    async function statusChangeHandler(event) {
+        event.preventDefault();
+        const id = event.target.id
+        console.log(event.target.defaultChecked )
+        event.target.defaultChecked = !event.target.defaultChecked
+        console.log(event.target.defaultChecked )
+        console.log(id)
+    }
 
     return (
         <div>
@@ -77,14 +89,16 @@ function Pool(props) {
             <br />
             {!!props.products &&
                 props.products.map(product => (
-                    <div key={product.id}>{product.productName} qantity:{product.quantity} </div>
+                    <form key={product.id} >
+                        {product.productName}    qantity:{product.quantity}
+                        <input id={product.id} type="checkbox" name="boughtStatus" defaultChecked={product.status} onChange={statusChangeHandler}/>
+                    </form>
                 ))}
         </div>
     )
 }
 
 const mapState = state => {
-    console.log('state', state.pool)
     return {
         products: state.pool,
     };

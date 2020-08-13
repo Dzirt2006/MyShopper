@@ -48,9 +48,7 @@ function Home(props) {
         console.log('Connected!')
     })
 
-    // const socket = socketIOClient("localhost:8000");
-    // socket.on('connect', () => console.log('We live'))
-
+    
     if (props.user.name) {
         return (
             <div>

@@ -43,6 +43,7 @@ router.get('/all', async (req, res, next) => {
 
 router.post('/:id?', async (req, res, next) => {
     const cookieId = { cookie_id: req.signedCookies.id };
+    console.log(cookieId)
     try {
         let data;
         if (req.params.id) {
