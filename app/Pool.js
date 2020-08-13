@@ -2,44 +2,85 @@ import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import { VKShareButton, VKIcon } from "react-share";
-import { installPool, newProduct } from './store/poolReducer';
+import { EmailShareButton, EmailIcon } from "react-share";
+import { installPool, newProduct, changeBoughtStatus } from './store/poolReducer';
+import io from 'socket.io-client'
+const socket = io()
+
+
+
+socket.on('connect', () => {
+    console.log('Connected!')
+    console.log('joined to ')
+})
+
+
+
+// socket.on('product_added', function() {
+// console.log("product added");
+// });
 
 function Pool(props) {
-    const [products, setProducts] = useState([]);
     const [product, setProduct] = useState({ productName: '', quantity: 1 });
     const id = useParams().id;
     const dispatch = useDispatch();
 
+
+
     useEffect(() => {
         dispatch(installPool(id));
-    }, [])
+        console.log('action')
+        socket.emit('subscribe', id);
+
+        socket.on('product_added', function () {
+            dispatch(installPool(id));
+            console.log("product added");
+        });
+
+        socket.on('status_changed', function () {
+            dispatch(installPool(id));
+            console.log("status_changed");
+        });
+
+        //    ()=>{socket.removeAllListeners()}
+    }, [socket])
 
 
     async function onClickHandler(event) {
         event.preventDefault();
-        dispatch(newProduct(id, product));
+        await dispatch(newProduct(id, product));
+        socket.emit('product_added', product);
         setProduct({ productName: '' });
     }
 
     function onChangeEv(event) {
         setProduct({ ...product, [event.target.name]: event.target.value });
-        console.log(product)
     }
 
-
-
-    console.log(props.products[0])
+    async function statusChangeHandler(event) {
+        event.preventDefault();
+        const idProduct = parseInt(event.target.id)
+        const productJSON = props.products.filter(product => product.id === idProduct)[0];
+        await dispatch(changeBoughtStatus(idProduct,
+            {
+                id: productJSON.id,
+                poolId: productJSON.poolId,
+                productName: productJSON.productName,
+                quantity: productJSON.quantity,
+                status: !productJSON.status
+            }))
+        socket.emit('status_changed')//this will cause status_change event on server->server emit status_changed on client->this emit will dispatch set pool and rerender
+    }
 
     return (
         <div>
-            <VKShareButton
+            <EmailShareButton
                 className="network__share-button"
-                url={'http://localhost:8000'}
-                title={'title'}
+                url={`http://localhost:8000/${id}`}
+                title={'Let\'s connect to my shopping pool!'}
             >
-                <VKIcon size={32} />
-            </VKShareButton>
+                <EmailIcon size={32} />
+            </EmailShareButton>
             <form onSubmit={onClickHandler}>
                 <input type="text" id="name" name="productName" value={product.productName}
                     onChange={onChangeEv} />
@@ -60,14 +101,16 @@ function Pool(props) {
             <br />
             {!!props.products &&
                 props.products.map(product => (
-                    <div key={product.id}>{product.productName} qantity:{product.quantity} </div>
+                    <form key={product.id} >
+                        {product.productName}    qantity:{product.quantity}
+                        <input id={product.id} type="checkbox" name="boughtStatus" checked={product.status} onChange={statusChangeHandler} />
+                    </form>
                 ))}
         </div>
     )
 }
 
 const mapState = state => {
-    console.log('state', state.pool)
     return {
         products: state.pool,
     };

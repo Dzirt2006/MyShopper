@@ -38,7 +38,7 @@ const Product = db.define('product', {
 //with the same Name and poolId
 // if true ->trow error
 
-Product.addHook('beforeValidate', async (product, options) => {
+Product.addHook('beforeCreate', async (product, options) => {
     const productSearch = product.dataValues.productName;
     const idSearch = product.dataValues.poolId;
     await Product.findAll({ attributes: ['productName'], where: { poolId: idSearch, productName: productSearch } })

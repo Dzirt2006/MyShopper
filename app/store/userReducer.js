@@ -19,10 +19,10 @@ const createUser = user => ({
 
 
 //thunk
-export const fetchUser = () => async dispatch => {//not in use, clear on deploy
-    const { data } = await axios.get('/api/user/');
-    const action = getUser(data);
-    dispatch(action);
+export const refUser = (pool_id) => async dispatch => {
+    const { data } = await axios.post(`/api/user/${pool_id}`)
+    const action = createUser(data);
+    dispatch(action);    
 }
 export const newUser = () => async dispatch => {
     const { data } = await axios.post('/api/user/');
