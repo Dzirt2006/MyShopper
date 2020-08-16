@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NewPool from './CreatePool';
-import Pools from './PoolsShortcut';
+import PoolsShortcut from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
 import { newUser, refUser } from './store/userReducer';
 import { useParams } from 'react-router';
@@ -57,7 +57,7 @@ function Home(props) {
                 {!!props.user.pools &&
                     props.user.pools.map(pool => (
                         <div id='pools_list' key={pool.id}>
-                            <Pools poolInfo={pool} />
+                            <PoolsShortcut poolInfo={pool} />
                         </div>))
                 }
             </div>

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import { EmailShareButton, EmailIcon } from "react-share";
+
 import { installPool, newProduct, changeBoughtStatus } from './store/poolReducer';
 import io from 'socket.io-client'
+import ShareBar from './SharingBar';
 const socket = io()
 
 
@@ -74,13 +75,7 @@ function Pool(props) {
 
     return (
         <div>
-            <EmailShareButton
-                className="network__share-button"
-                url={`http://localhost:8000/${id}`}
-                title={'Let\'s connect to my shopping pool!'}
-            >
-                <EmailIcon size={32} />
-            </EmailShareButton>
+            <ShareBar id={id} />
             <form onSubmit={onClickHandler}>
                 <input type="text" id="name" name="productName" value={product.productName}
                     onChange={onChangeEv} />
