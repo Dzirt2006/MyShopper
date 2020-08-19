@@ -5,6 +5,14 @@ import { connect, useDispatch } from 'react-redux';
 import { newUser, refUser } from './store/userReducer';
 import { useParams } from 'react-router';
 import io from 'socket.io-client'
+//bootstrap
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import ListGroup from 'react-bootstrap/ListGroup';
+//
 
 const mainSocket = io(window.location.origin)
 
@@ -31,34 +39,26 @@ function Home(props) {
                 gettUser();
             }, 20);
         }
-
-
-
-
     }, [])
-
-    function onClickHandler(event) {
-
-    }
-
-
 
 
     mainSocket.on('connect', () => {
         console.log('Connected!')
     })
 
-    
+
     if (props.user.name) {
         return (
             <div>
                 <NewPool />
-                <button onClick={() => onClickHandler()}> New pool </button>
+                <br/>
                 {!!props.user.pools &&
-                    props.user.pools.map(pool => (
-                        <div id='pools_list' key={pool.id}>
-                            <PoolsShortcut poolInfo={pool} />
-                        </div>))
+                    <ListGroup className="poolList">
+                        {props.user.pools.map(pool => (
+                            <ListGroup.Item key={pool.id}>
+                                <PoolsShortcut poolInfo={pool} />
+                            </ListGroup.Item >))}
+                    </ListGroup>
                 }
             </div>
         )

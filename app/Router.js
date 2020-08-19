@@ -7,7 +7,14 @@ import Pool from './Pool';
 const Routes = () => {
     return (
         <Router>
-            <div> <center><h2>Welcome to MyShopper!</h2></center></div>
+            <div>
+                <br />
+                <center>
+                    <h2>Welcome to MyShopper!</h2>
+                </center>
+            </div>
+            <br />
+            <br />
             <Switch>
                 <Route exact path="/:id?" component={Home} />
                 <Route path="/pool/:id" component={Pool} />

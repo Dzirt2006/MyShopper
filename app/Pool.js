@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import axios from 'axios';
-
 import { installPool, newProduct, changeBoughtStatus } from './store/poolReducer';
+//bootstrap
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import ListGroup from 'react-bootstrap/ListGroup';
+//
 import io from 'socket.io-client'
 import ShareBar from './SharingBar';
 const socket = io()
-
 
 
 socket.on('connect', () => {
@@ -16,16 +21,11 @@ socket.on('connect', () => {
 })
 
 
-
-// socket.on('product_added', function() {
-// console.log("product added");
-// });
-
 function Pool(props) {
     const [product, setProduct] = useState({ productName: '', quantity: 1 });
     const id = useParams().id;
     const dispatch = useDispatch();
-
+    onClickHandler = onClickHandler.bind(product)
 
 
     useEffect(() => {
@@ -43,18 +43,19 @@ function Pool(props) {
             console.log("status_changed");
         });
 
-        //    ()=>{socket.removeAllListeners()}
     }, [socket])
 
 
     async function onClickHandler(event) {
         event.preventDefault();
+        console.log('pr', product)
         await dispatch(newProduct(id, product));
         socket.emit('product_added', product);
         setProduct({ productName: '' });
     }
 
     function onChangeEv(event) {
+        console.log(product)
         setProduct({ ...product, [event.target.name]: event.target.value });
     }
 
@@ -75,32 +76,65 @@ function Pool(props) {
 
     return (
         <div>
-            <ShareBar id={id} />
-            <form onSubmit={onClickHandler}>
-                <input type="text" id="name" name="productName" value={product.productName}
-                    onChange={onChangeEv} />
-                <select id="prod_qa" name="quantity" onChange={onChangeEv}  >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
-                <input type="submit" value="AddProduct" />
-            </form>
+            <ShareBar id={id} className="float-right" />
             <br />
-            {!!props.products &&
-                props.products.map(product => (
-                    <form key={product.id} >
-                        {product.productName}    qantity:{product.quantity}
-                        <input id={product.id} type="checkbox" name="boughtStatus" checked={product.status} onChange={statusChangeHandler} />
-                    </form>
-                ))}
+            <br />
+            <Container>
+                <Form onSubmit={onClickHandler}>
+                    <Container>
+                        <Row>
+                            <Col xs={6}>
+                                <Form.Group controlId="formBasic">
+                                    <Form.Control type="text" name="productName" value={product.productName} onChange={onChangeEv}
+                                    />
+                                    <Form.Text className="text-muted">
+                                        Type you product there.
+                     </Form.Text>
+                                </Form.Group>
+                            </Col>
+                            <Col xs={2}>
+                                <Form.Group controlId="exampleForm.ControlSelect1">
+                                    <Form.Control as="select" name="quantity" value={product.quantity} onChange={onChangeEv} >
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </Form.Control>
+                                </Form.Group>
+                            </Col>
+                            <Col xs={3}>
+                                <Button variant="success" type="submit">AddProduct</Button>
+                            </Col>
+                        </Row>
+                    </Container>
+                </Form>
+                <br />
+                {!!props.products &&
+                    <ListGroup variant="flush">
+                        {props.products.map(product => (
+                            <ListGroup.Item key={product.id}>
+                                <Form>
+                                    <Row>
+                                        <Col xs={8}>{product.productName}</Col>
+                                        <Col> quantity: {product.quantity}</Col>
+                                        <Col >
+                                            <label className="customcheck">
+                                                <input id={product.id} className="float-right checkbox" type="checkbox" name="boughtStatus" checked={product.status} onChange={statusChangeHandler} />
+                                                <span className="checkmark"></span>
+                                            </label>
+                                        </Col>
+                                    </Row>
+                                </Form>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>}
+            </Container>
         </div>
     )
 }
