@@ -27,4 +27,14 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
+router.delete('/:id', async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        await Pool.destroy({ where: { id: id } })
+        res.sendStatus(200)
+    } catch (err) {
+        console.log(red("Can't delete Pool", next(err)));
+    }
+})
+
 
