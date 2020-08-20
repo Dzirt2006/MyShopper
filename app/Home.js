@@ -22,6 +22,7 @@ function Home(props) {
 
 
     useEffect(() => {
+        console.log('cookie',document.cookie)
         function gettUser() {
             dispatch(newUser());
         }
@@ -31,13 +32,13 @@ function Home(props) {
         if (id) {
             setTimeout(() => {
                 getRefUser();
-            }, 20);
-        } else {
-            setTimeout(() => {
+            }, 100);
+        } else if(document.cookie){
+            
                 gettUser();
-            }, 20);
+            
         }
-    }, [])
+    }, [document.cookie])
 
 
     mainSocket.on('connect', () => {
@@ -65,7 +66,7 @@ function Home(props) {
                                         <PoolsShortcut poolInfo={pool} />
                                     </Col>
                                     <Col>
-                                        <Button variant="danger" onClick={onClickHandle} id={pool.id} className="float-right">X</Button>
+                                        <Button variant="danger" onClick={onClickHandle} id={pool.id} >X</Button>
                                     </Col>
                                 </Row>
                             </ListGroup.Item >))}

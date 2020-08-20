@@ -16,9 +16,9 @@ const socket = require('socket.io')
 const http = require('http');
 const server = http.createServer(app);
 
+
 const io=socket(server);
 require('./socket')(io);
-
 
 //signed cookie
 app.use(cookieParser(`${process.env.COOKIE_SECRET}`));
@@ -42,9 +42,9 @@ app.use(express.static(path.join(__dirname, "../src")));
 
 // Send index.html for any other requests
 app.get("*", async (req, res, next) => {
+  console.log('cookie',!req.signedCookies.id)
   if (!req.signedCookies.id) { //create id for new user and save it in cookie
     const cookie = crypto.randomBytes(8).toString('hex');
-
     res.cookie('id', cookie, cookieConfig)
   }
   // res.clearCookie('id');
