@@ -1,16 +1,14 @@
 {
   "name": "myshopper",
   "version": "1.0.0",
-  "description": "small cross platform app for join purchase",
+  "description": "small cross platform app for join shopping",
   "main": "index.js",
   "scripts": {
-    "start-dev": "npm run build-watch & npm run start-webSocket",
-    "start-server": "nodemon main.js -e html,js,css --ignore public",
-    "start-webSocket": "nodemon ./server/index.js -e html,js,css --ignore public",
+    "start-dev": "npm run build-watch & npm run start-server",
+    "start-server": "node ./server/index.js -e html,js,css --ignore public",
     "build-watch": "webpack -w",
-    "start": "nodemon main.js",
-    "startSocket": "nodemon ./server/index.js",
-    "test": "node ./test.js"
+    "start": "node ./server/index.js",
+    "cleanDB": "node ./test.js"
   },
   "repository": {
     "type": "git",
@@ -38,6 +36,7 @@
     "chalk": "^4.1.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
+    "copy-webpack-plugin": "^6.0.3",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "morgan": "^1.10.0",
@@ -64,6 +63,7 @@
     "babel-loader": "^8.1.0",
     "html-webpack-plugin": "^4.3.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "workbox-webpack-plugin": "^5.1.3"
   }
 }

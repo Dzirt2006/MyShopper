@@ -1,6 +1,9 @@
 const path = require("path");
+const { GenerateSW } = require('workbox-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+ 
   watch: false,
   mode: "development",
   entry: [
@@ -23,4 +26,12 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new GenerateSW(),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: path.resolve(__dirname, './src') },
+      ],
+    })
+  ]
 };

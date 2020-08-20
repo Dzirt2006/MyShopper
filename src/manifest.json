@@ -1,0 +1,7 @@
+
+{
+  "short_name": "MyShopper",
+  "name": "MyShopper",
+  "main.css": "style.css",
+  "main.js": "bundle.js"
+}

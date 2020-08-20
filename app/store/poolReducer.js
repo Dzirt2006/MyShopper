@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 //action types
-const SET_POOL = 'SET_POOL';//not in use, clear on deploy
+const SET_POOL = 'SET_POOL';
 const ADD_PRODUCT='ADD_PRODUCT';
 
 
 //action creator
-const setPool = pool => ({//not in use, clear on deploy
+const setPool = pool => ({
     type: SET_POOL,
     products: pool.products
 })

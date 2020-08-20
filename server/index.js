@@ -14,32 +14,10 @@ const PORT = process.env.PORT || 8000;
 const socket = require('socket.io')
 
 const http = require('http');
-// const WebSocket = require('ws');
 const server = http.createServer(app);
-// const wss = new WebSocket.Server({ server })
 
 const io=socket(server);
 require('./socket')(io);
-
-// const users = [];
-
-// wss.on('connection', function connection(ws,req) {
-//   console.log(req.headers.cookie)
-//   wss.clients.forEach(function each(client) {
-//     if (client !== ws && client.readyState === WebSocket.OPEN) {
-//       client.send("room: User " + req.headers.origin + " joined!");
-//     }
-//   })
-//   ws.on('message', function incoming(data) {
-//     console.log('conected', data)
-//     // ws.send('Hey HO!')
-//     wss.clients.forEach(function each(client) {
-//       if (client !== ws && client.readyState === WebSocket.OPEN) {
-//         client.send(data);
-//       }
-//     })
-//   })
-// })
 
 
 //signed cookie

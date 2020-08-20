@@ -12,6 +12,3 @@ module.exports = db.define('pool', {
         allowNull:false
     }
 })
-
-//add function add users to pool
-// delete pool and all related product in 3 day after complete
