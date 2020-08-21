@@ -36,14 +36,14 @@ function Home(props) {
         } else {
             setTimeout(() => {
                 gettUser();
-            }, 20);
+            }, 100);
         }
     }, [])
 
 
-    mainSocket.on('connect', () => {
-        console.log('Connected!')
-    })
+    // mainSocket.on('connect', () => {
+    //     console.log('Connected!')
+    // })
 
     function onClickHandle(event) {
         event.preventDefault();
@@ -82,7 +82,6 @@ function Home(props) {
 }
 
 const mapState = state => {
-    console.log('STATE: ', state.user);
     return {
         user: state.user,
     };
