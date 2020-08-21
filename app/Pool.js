@@ -15,10 +15,10 @@ import ShareBar from './SharingBar';
 const socket = io()
 
 
-socket.on('connect', () => {
-    console.log('Connected!')
-    console.log('joined to ')
-})
+// socket.on('connect', () => {
+//     console.log('Connected!')
+//     console.log('joined to ')
+// })
 
 
 function Pool(props) {
@@ -30,17 +30,16 @@ function Pool(props) {
 
     useEffect(() => {
         dispatch(installPool(id));
-        console.log('action')
         socket.emit('subscribe', id);
 
         socket.on('product_added', function () {
             dispatch(installPool(id));
-            console.log("product added");
+            // console.log("product added");
         });
 
         socket.on('status_changed', function () {
             dispatch(installPool(id));
-            console.log("status_changed");
+            // console.log("status_changed");
         });
 
     }, [socket])
@@ -48,14 +47,12 @@ function Pool(props) {
 
     async function onClickHandler(event) {
         event.preventDefault();
-        console.log('pr', product)
         await dispatch(newProduct(id, product));
         socket.emit('product_added', product);
         setProduct({ productName: '' });
     }
 
     function onChangeEv(event) {
-        console.log(product)
         setProduct({ ...product, [event.target.name]: event.target.value });
     }
 

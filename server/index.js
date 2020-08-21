@@ -14,32 +14,11 @@ const PORT = process.env.PORT || 8000;
 const socket = require('socket.io')
 
 const http = require('http');
-// const WebSocket = require('ws');
 const server = http.createServer(app);
-// const wss = new WebSocket.Server({ server })
 
 const io=socket(server);
 require('./socket')(io);
 
-// const users = [];
-
-// wss.on('connection', function connection(ws,req) {
-//   console.log(req.headers.cookie)
-//   wss.clients.forEach(function each(client) {
-//     if (client !== ws && client.readyState === WebSocket.OPEN) {
-//       client.send("room: User " + req.headers.origin + " joined!");
-//     }
-//   })
-//   ws.on('message', function incoming(data) {
-//     console.log('conected', data)
-//     // ws.send('Hey HO!')
-//     wss.clients.forEach(function each(client) {
-//       if (client !== ws && client.readyState === WebSocket.OPEN) {
-//         client.send(data);
-//       }
-//     })
-//   })
-// })
 
 
 //signed cookie
@@ -64,6 +43,7 @@ app.use(express.static(path.join(__dirname, "../src")));
 
 // Send index.html for any other requests
 app.get("*", async (req, res, next) => {
+  console.log(!req.signedCookies.id)
   if (!req.signedCookies.id) { //create id for new user and save it in cookie
     const cookie = crypto.randomBytes(8).toString('hex');
 
