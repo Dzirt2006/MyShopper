@@ -36,7 +36,7 @@ function Home(props) {
         } else {
             setTimeout(() => {
                 gettUser();
-            }, 100);
+            }, 200);
         }
     }, [])
 
