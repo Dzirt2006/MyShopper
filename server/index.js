@@ -4,11 +4,11 @@ const path = require("path");
 const morgan = require("morgan");
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
-const axios = require('axios');
 const compression = require('compression')
-const { green, red } = require('chalk');
-
+const session = require('express-session')
+const passport = require('passport')
 const db = require('./db');
+const { User} = require('./db/models')
 
 const PORT = process.env.PORT || 8000;
 const socket = require('socket.io')
@@ -19,6 +19,49 @@ const server = http.createServer(app);
 const io=socket(server);
 require('./socket')(io);
 
+
+// if (process.env.NODE_ENV !== 'production') require('./auth/secret')
+require('./auth/secret')
+
+
+
+
+//------------------------------------------pasport------------------------------------
+
+// session middleware with passport
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'shhh it is secret',
+    resave: false,
+    saveUninitialized: false
+  })
+)
+
+// consumes 'req.session' so that passport can know what's on the session
+app.use(passport.initialize())
+// this will invoke our registered 'deserializeUser' method
+// and attempt to put our user on 'req.user'
+app.use(passport.session())
+
+
+// passport registration
+passport.serializeUser((user, done) => {done(null, user.id)})
+
+// If we've serialized the user on our session with an id, we look it up here
+// and attach it as 'req.user'.
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findByPk(id)
+    done(null, user)
+  } catch (err) {
+    done(err)
+  }
+})
+
+  // auth and api routes
+  app.use('/auth', require('./auth/google'))
+
+//--------------------------------------------------------------------------------
 
 
 //signed cookie
@@ -43,7 +86,7 @@ app.use(express.static(path.join(__dirname, "../src")));
 
 // Send index.html for any other requests
 app.get("*", async (req, res, next) => {
-  console.log(!req.signedCookies.id)
+  // console.log(req.session)
   if (!req.signedCookies.id) { //create id for new user and save it in cookie
     const cookie = crypto.randomBytes(8).toString('hex');
 

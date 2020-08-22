@@ -7,8 +7,15 @@ module.exports = db.define('user', {
     type: Sequelize.STRING,
     defaultValue:"not named yet =("
   },
-  cookie_id: {
+  email: {
     type: Sequelize.STRING,
     allowNull: false
+  },
+  imgUrl: {
+    type: Sequelize.STRING,
+    // defaultValue: '/loggin.png'
+  },
+  googleId:{
+    type: Sequelize.STRING
   }
 })

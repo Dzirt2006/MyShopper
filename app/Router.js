@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Home from './Home';
 import Pool from './Pool';
-
+import Login from './Login';
 
 const Routes = () => {
     return (
@@ -16,8 +16,9 @@ const Routes = () => {
             <br />
             <br />
             <Switch>
-                <Route exact path="/:id?" component={Home} />
+                <Route exact path="/home/:id?" component={Home} />
                 <Route path="/pool/:id" component={Pool} />
+                <Route component={Login} />
                 {/* <Route component={Error} />  add error */}
             </Switch>
         </Router>
