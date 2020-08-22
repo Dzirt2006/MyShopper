@@ -30,13 +30,9 @@ function Home(props) {
             dispatch(refUser(id));
         }
         if (id) {
-            setTimeout(() => {
-                getRefUser();
-            }, 20);
+            getRefUser();
         } else {
-            setTimeout(() => {
-                gettUser();
-            }, 200);
+            gettUser();
         }
     }, [])
 
