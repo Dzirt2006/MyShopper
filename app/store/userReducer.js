@@ -38,8 +38,8 @@ export const newUser = () => async dispatch => {
 
 export const deletePool = (pool_id) => async dispatch => {
     await axios.delete(`/api/pool/${pool_id}`);
-    const { data } = await axios.post('/api/user/');
-    const action = createUser(data);
+    const { data } = await axios.get('/api/user/');
+    const action = getUser(data);
     dispatch(action);
     // const action = delPool(pool_id);
     // dispatch(action);

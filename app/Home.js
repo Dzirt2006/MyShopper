@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import NewPool from './CreatePool';
 import PoolsShortcut from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
@@ -19,6 +20,7 @@ const mainSocket = io(window.location.origin)
 
 function Home(props) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const id = useParams().id;
 
 
