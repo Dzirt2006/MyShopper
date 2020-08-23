@@ -3,13 +3,16 @@ import axios from 'axios';
 //action types
 const GET_USER = 'GET_USER';
 const DELETE_POOL = 'DELETE_POOL';
+const CLEAR_USER = 'CLEAR_USER';
 
 //action creator
 const getUser = user => ({
     type: GET_USER,
     user
 })
-
+const clearUser = () => ({
+    type: CLEAR_USER
+})
 
 //thunk
 export const newUser = () => async dispatch => {
@@ -29,6 +32,12 @@ export const refUser = (pool_id) => async dispatch => {//not in use, clear on de
     dispatch(action);
 }
 
+export const logout = () => dispatch => {
+    axios.delete('/auth/logout')
+    const action = clearUser();
+    dispatch(action);
+}
+
 //initial state
 const initialState = {
     name: '',
@@ -44,6 +53,8 @@ const reducer = (state = initialState, action) => {
         case DELETE_POOL:
             let newListOfPools = state.pools.filter(pool => pool.id !== action.id)
             return { ...state, pools: newListOfPools };
+        case CLEAR_USER:
+            return initialState;
         default:
             return state;
     }

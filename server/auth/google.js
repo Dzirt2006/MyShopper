@@ -65,13 +65,13 @@ module.exports = router
             failureRedirect: '/'
         })
     )
-    router.post('/logout', (req, res) => {
+    router.delete('/logout', (req, res) => {
         req.logout()
         req.session.destroy()
-        res.redirect('/')
     })
 
     router.get('/me', (req, res) => {
+        console.log('me')
         res.json(req.user)
     })
 // }

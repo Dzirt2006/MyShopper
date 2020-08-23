@@ -1,13 +1,13 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
 
-export default  function GoogleAuth() {
+export default function GoogleAuth() {
     const id = useParams().id;
 
-    useEffect(()=>{
-        if(id){
-            localStorage.setItem('refId',id)
+    useEffect(() => {
+        if (id) {
+            localStorage.setItem('refId', id)
         }
     })
 
@@ -15,8 +15,7 @@ export default  function GoogleAuth() {
 
     return (
         <form method='get' action='/auth/'>
-        {/* // <form onSubmit={onClickHandle}> */}
-           <center> <button type='submit'>Login with Google</button></center>
+            <center> <button type='submit'>Login with Google</button></center>
         </form>
     )
 }

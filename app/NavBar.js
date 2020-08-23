@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
+import { logout } from './store/userReducer';
 //bootstrap
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -15,7 +16,8 @@ function NavBar(props) {
     const dispatch = useDispatch();
 
     function onClickLogout(event) {
-        event.preventDefault();
+        dispatch(logout());
+        history.push('/')
     }
 
     function onClickHome() {
@@ -27,12 +29,12 @@ function NavBar(props) {
             <Container>
                 <br />
                 <Row>
-                    <Col> <Button variant="success" onClick={onClickHome}>Home</Button> </Col>
-                    <Col className="float-right">
+                    <Col xs={9}> <Button variant="info" onClick={onClickHome}>Home</Button> </Col>
+                    <Col className="float-right" xs={3}>
                         <Container>
                             <Row>
-                                <Button variant="danger" onClick={onClickLogout}>logout</Button>
-                                <img src={props.user.imgUrl} width="50" height="50" />
+                                <Col><Button variant="danger" onClick={onClickLogout}>logout</Button></Col>
+                                <Col><img src={props.user.imgUrl} width="50" height="50" /></Col>
                             </Row>
                         </Container>
                     </Col>
@@ -42,7 +44,7 @@ function NavBar(props) {
         )
     } else {
         return (
-            <center>your commercial here</center>
+            <center>🍔 🥓 🍩 🍪</center>
         )
     }
 }

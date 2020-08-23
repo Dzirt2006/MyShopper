@@ -4,6 +4,7 @@ import NewPool from './CreatePool';
 import PoolsShortcut from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
 import { newUser, refUser, deletePool } from './store/userReducer';
+import { cleanPool } from './store/poolReducer';
 import io from 'socket.io-client'
 //bootstrap
 import Button from 'react-bootstrap/Button';
@@ -33,6 +34,7 @@ function Home(props) {
         } else {
             gettUser()
         }
+        dispatch(cleanPool())//clean product from pool store
         localStorage.clear();
     }, [])
 
