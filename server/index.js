@@ -64,9 +64,6 @@ passport.deserializeUser(async (id, done) => {
 //--------------------------------------------------------------------------------
 
 
-//signed cookie
-app.use(cookieParser(`${process.env.COOKIE_SECRET}`));
-
 //use compression middleware for increasing perfomance
 app.use(compression());
 
@@ -86,21 +83,8 @@ app.use(express.static(path.join(__dirname, "../src")));
 
 // Send index.html for any other requests
 app.get("*", async (req, res, next) => {
-  // console.log(req.session)
-  if (!req.signedCookies.id) { //create id for new user and save it in cookie
-    const cookie = crypto.randomBytes(8).toString('hex');
-
-    res.cookie('id', cookie, cookieConfig)
-  }
-  // res.clearCookie('id');
   res.sendFile(path.join(__dirname, "../src/index.html"));
 });
-
-const cookieConfig = {
-  httpOnly: false, // to disable accessing cookie via client side js
-  maxAge: 1000000000, // ttl in ms (remove this option and cookie will die when browser is closed)
-  signed: true //  use  with the cookieParser secret
-};
 
 // any remaining requests with an extension (.js, .css, etc.) send 404
 app.use((req, res, next) => {

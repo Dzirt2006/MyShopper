@@ -4,7 +4,6 @@ import NewPool from './CreatePool';
 import PoolsShortcut from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
 import { newUser, refUser, deletePool } from './store/userReducer';
-import { useParams } from 'react-router';
 import io from 'socket.io-client'
 //bootstrap
 import Button from 'react-bootstrap/Button';
@@ -14,34 +13,29 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 //
 
-const mainSocket = io(window.location.origin)
-
 
 
 function Home(props) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const id = useParams().id;
-
 
     useEffect(() => {
+        const refId = localStorage.getItem('refId');
         function gettUser() {
             dispatch(newUser());
         }
-        function getRefUser() {
-            dispatch(refUser(id));
+        function refferanceUser() {
+            dispatch(refUser(refId))
         }
-        if (id) {
-            getRefUser();
+        gettUser();
+        if (refId) {
+            refferanceUser();
         } else {
-            gettUser();
+            gettUser()
         }
+        localStorage.clear();
     }, [])
 
-
-    // mainSocket.on('connect', () => {
-    //     console.log('Connected!')
-    // })
 
     function onClickHandle(event) {
         event.preventDefault();

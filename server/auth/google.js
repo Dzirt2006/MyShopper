@@ -40,23 +40,11 @@ module.exports = router
             const googleId = profile.id
             const email = profile.emails[0].value
             const imgUrl = profile.photos[0].value
-            // const firstName = profile.name.givenName
-            // const lastName = profile.name.familyName
             const userName = profile.displayName
-
-            //    User.findOrCreate({
-            //     where: { googleId },
-            //     include: [Pool],
-            //     defaults: { email, userName,imgUrl  }
-            // })
-            //     .then(([user]) => done(null, user))
-            //     .catch(done)
-        
 
         try {
             const [user] = await User.findOrCreate({
                 where: { googleId },
-                include: [Pool],
                 defaults: { email, userName,imgUrl  }
             })
             done(null, user) // the user we pass to done here is piped through passport.serializeUser

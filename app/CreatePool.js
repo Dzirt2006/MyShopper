@@ -48,10 +48,5 @@ export default function NewPool(props) {
             </Form>
         </Container>
         </center>
-        // <form onSubmit={onClickHandler}>
-        //     <input type="text" id="name" name="name"
-        //         onChange={onChangeEv} />
-        //     <input type="submit" value="AddPool" />
-        // </form>
     )
 }
