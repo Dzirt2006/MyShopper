@@ -10,8 +10,8 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import ListGroup from 'react-bootstrap/ListGroup';
 //
-import io from 'socket.io-client'
 import ShareBar from './SharingBar';
+import io from 'socket.io-client'
 const socket = io()
 
 
@@ -48,7 +48,7 @@ function Pool(props) {
     async function onClickHandler(event) {
         event.preventDefault();
         await dispatch(newProduct(id, product));
-        socket.emit('product_added', product);
+        socket.emit('product_added', id);
         setProduct({ productName: '' });
     }
 
@@ -68,7 +68,7 @@ function Pool(props) {
                 quantity: productJSON.quantity,
                 status: !productJSON.status
             }))
-        socket.emit('status_changed')//this will cause status_change event on server->server emit status_changed on client->this emit will dispatch set pool and rerender
+        socket.emit('status_changed',id)//this will cause status_change event on server->server emit status_changed on client->this emit will dispatch set pool and rerender
     }
 
     return (
