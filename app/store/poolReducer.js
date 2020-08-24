@@ -19,7 +19,6 @@ const cleanFromPool=()=>({
 })
 
 
-
 //thunk
 export const installPool = (id,history) => async dispatch => {
     console.log(id)

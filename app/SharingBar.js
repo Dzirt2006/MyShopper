@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import {
-    EmailShareButton,
     FacebookShareButton,
     WhatsappShareButton,
-    VKShareButton,
+    TelegramShareButton,
     FacebookMessengerShareButton,
 
+    FacebookMessengerIcon,
     FacebookIcon,
     WhatsappIcon,
-    VKIcon,
-    EmailIcon,
+    TelegramIcon,
 } from "react-share";
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
@@ -37,13 +36,13 @@ export default function ShareBar(props) {
                         <Container>
                             <Row>
                                 <Col>
-                                    <EmailShareButton
+                                    <FacebookMessengerShareButton
                                         className="network__share-button"
                                         url={`${window.location.origin}/${id}`}
                                         title={'Let\'s connect to my shopping pool!'}
                                     >
-                                        <EmailIcon size={32} />
-                                    </EmailShareButton>
+                                        <FacebookMessengerIcon size={32} />
+                                    </FacebookMessengerShareButton>
                                 </Col>
                                 <Col>
                                     <WhatsappShareButton
@@ -64,13 +63,13 @@ export default function ShareBar(props) {
                                     </FacebookShareButton>
                                 </Col>
                                 <Col>
-                                    <VKShareButton
+                                    <TelegramShareButton
                                         className="network__share-button"
                                         url={`${window.location.origin}/${id}`}
                                         title={'Let\'s connect to my shopping pool!'}
                                     >
-                                        <VKIcon size={32} />
-                                    </VKShareButton>
+                                        <TelegramIcon size={32} />
+                                    </TelegramShareButton>
                                 </Col>
                             </Row>
                         </Container>

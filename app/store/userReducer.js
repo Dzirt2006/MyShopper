@@ -17,9 +17,9 @@ const clearUser = () => ({
 //thunk
 export const newUser = (props) => async dispatch => {
     const { data } = await axios.get('/api/user/')
-    .catch(()=>{
-        props.push('/');
-    })
+        .catch(() => {
+            props.push('/');
+        })
     const action = getUser(data);
     dispatch(action);
 }
@@ -29,12 +29,11 @@ export const deletePool = (pool_id) => async dispatch => {
     const action = getUser(data);
     dispatch(action);
 }
-export const refUser = (pool_id) => async dispatch => {//not in use, clear on deploy
+export const refUser = (pool_id) => async dispatch => {
     const { data } = await axios.post(`/api/user/${pool_id}`);
     const action = getUser(data);
     dispatch(action);
 }
-
 export const logout = () => dispatch => {
     axios.delete('/auth/logout')
     const action = clearUser();
