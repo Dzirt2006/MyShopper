@@ -74,7 +74,7 @@ function Pool(props) {
             <br />
             <br />
             <Container>
-                <Form onSubmit={onClickHandler}>
+                <Form onSubmit={onClickHandler} autoComplete='off'>
                     <Container>
                         <Row>
                             <Col xs={6}>
@@ -114,7 +114,7 @@ function Pool(props) {
                         {props.products.map(product => (
                             <ListGroup.Item key={product.id}>
                                 <Form>
-                                    <Row>
+                                    <Row xs={1} md={1} lg={1}>
                                         <Col xs={8}>{product.productName}</Col>
                                         <Col> quantity: {product.quantity}</Col>
                                         <Col >
