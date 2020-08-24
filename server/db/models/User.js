@@ -13,7 +13,7 @@ module.exports = db.define('user', {
   },
   imgUrl: {
     type: Sequelize.STRING,
-    // defaultValue: '/loggin.png'
+    defaultValue: 'https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/08/388x210_Are_Apple_Seeds_Poisonous-1.jpg?w=756&h=567'
   },
   googleId:{
     type: Sequelize.STRING

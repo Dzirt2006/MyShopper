@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-    EmailShareButton,
     FacebookShareButton,
     WhatsappShareButton,
     TelegramShareButton,
@@ -10,7 +9,6 @@ import {
     FacebookIcon,
     WhatsappIcon,
     TelegramIcon,
-    EmailIcon,
 } from "react-share";
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';

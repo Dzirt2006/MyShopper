@@ -11,8 +11,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 //
-import io from 'socket.io-client'
-const socket = io()
+
 
 function Home(props) {
     const dispatch = useDispatch();
@@ -32,16 +31,13 @@ function Home(props) {
         } else {
             gettUser()
         }
-        dispatch(cleanPool())//clean product from pool store
-        socket.removeAllListeners()
         localStorage.clear();
-    }, [socket])
+    }, [])
 
 
     function onClickHandle(event) {
         event.preventDefault();
         const poolId = event.target.id;
-        console.log(poolId);
         dispatch(deletePool(poolId));
     }
 

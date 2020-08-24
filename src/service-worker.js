@@ -107,8 +107,14 @@ define("./service-worker.js",['./workbox-64f1e998'], function (workbox) { 'use s
    */
 
   workbox.precacheAndRoute([{
+    "url": "back.jpg",
+    "revision": "716566935dcfe69f8fc5927a686a4594"
+  }, {
     "url": "favicon.gif",
     "revision": "3dbdb19ab4c4c6edf1ec72754c3f4c5d"
+  }, {
+    "url": "img/back.jpg",
+    "revision": "716566935dcfe69f8fc5927a686a4594"
   }, {
     "url": "img/logo192x192.png",
     "revision": "d42a961f523bc220b6028d7da6226c8b"

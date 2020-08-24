@@ -16,9 +16,10 @@ export default function GoogleAuth() {
 
     return (
         <div>
+            <br />
             <center><h3>Welcome!</h3></center>
-            <br/>
-            <br/>
+            <br />
+            <br />
             <Form method='get' action='/auth/'>
                 <center><Button variant="success" type="submit">Login with Google</Button> </center>
             </Form>

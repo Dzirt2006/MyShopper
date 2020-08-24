@@ -20,8 +20,8 @@ require('./socket')(io);
 //------------------------------------------pasport------------------------------------
 
 
-// if (process.env.NODE_ENV !== 'production') require('./auth/secret')
-require('./auth/secret')
+if (process.env.NODE_ENV !== 'production') require('./auth/secret')
+
 
 // session middleware with passport
 app.use(
