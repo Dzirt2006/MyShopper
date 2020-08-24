@@ -1,49 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import NewPool from './CreatePool';
 import PoolsShortcut from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
 import { newUser, refUser, deletePool } from './store/userReducer';
-import { useParams } from 'react-router';
-import io from 'socket.io-client'
+import { cleanPool } from './store/poolReducer';
 //bootstrap
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 //
-
-const mainSocket = io(window.location.origin)
-
-
+import io from 'socket.io-client'
+const socket = io()
 
 function Home(props) {
     const dispatch = useDispatch();
-    const id = useParams().id;
-
+    const history = useHistory();
 
     useEffect(() => {
+        const refId = localStorage.getItem('refId');
         function gettUser() {
-            dispatch(newUser());
+            dispatch(newUser(history));
         }
-        function getRefUser() {
-            dispatch(refUser(id));
+        function refferanceUser() {
+            dispatch(refUser(refId))
         }
-        if (id) {
-            setTimeout(() => {
-                getRefUser();
-            }, 20);
+        gettUser();
+        if (refId) {
+            refferanceUser();
         } else {
-            setTimeout(() => {
-                gettUser();
-            }, 100);
+            gettUser()
         }
-    }, [])
+        dispatch(cleanPool())//clean product from pool store
+        socket.removeAllListeners()
+        localStorage.clear();
+    }, [socket])
 
-
-    // mainSocket.on('connect', () => {
-    //     console.log('Connected!')
-    // })
 
     function onClickHandle(event) {
         event.preventDefault();

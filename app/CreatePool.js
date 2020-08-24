@@ -9,7 +9,6 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
 export default function NewPool(props) {
-
     const history = useHistory();
     const [name, setName] = useState(null);
 
@@ -48,10 +47,5 @@ export default function NewPool(props) {
             </Form>
         </Container>
         </center>
-        // <form onSubmit={onClickHandler}>
-        //     <input type="text" id="name" name="name"
-        //         onChange={onChangeEv} />
-        //     <input type="submit" value="AddPool" />
-        // </form>
     )
 }
