@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { installPool, newProduct, changeBoughtStatus } from './store/poolReducer';
 //bootstrap
@@ -15,31 +16,27 @@ import io from 'socket.io-client'
 const socket = io()
 
 
-// socket.on('connect', () => {
-//     console.log('Connected!')
-//     console.log('joined to ')
-// })
-
-
 function Pool(props) {
     const [product, setProduct] = useState({ productName: '', quantity: 1 });
     const id = useParams().id;
     const dispatch = useDispatch();
+    const history = useHistory();
     onClickHandler = onClickHandler.bind(product)
 
 
     useEffect(() => {
-        dispatch(installPool(id));
+        socket.removeAllListeners()
+        dispatch(installPool(id, history));
+        socket.emit('unsubscribe');
         socket.emit('subscribe', id);
 
         socket.on('product_added', function () {
             dispatch(installPool(id));
-            // console.log("product added");
         });
 
         socket.on('status_changed', function () {
+            console.log(id)
             dispatch(installPool(id));
-            // console.log("status_changed");
         });
 
     }, [socket])
@@ -68,7 +65,7 @@ function Pool(props) {
                 quantity: productJSON.quantity,
                 status: !productJSON.status
             }))
-        socket.emit('status_changed',id)//this will cause status_change event on server->server emit status_changed on client->this emit will dispatch set pool and rerender
+        socket.emit('status_changed', id)//this will cause status_change event on server->server emit status_changed on client->this emit will dispatch set pool and rerender
     }
 
     return (
@@ -86,7 +83,7 @@ function Pool(props) {
                                     />
                                     <Form.Text className="text-muted">
                                         Type you product there.
-                     </Form.Text>
+                                    </Form.Text>
                                 </Form.Group>
                             </Col>
                             <Col xs={2}>

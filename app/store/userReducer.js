@@ -15,8 +15,11 @@ const clearUser = () => ({
 })
 
 //thunk
-export const newUser = () => async dispatch => {
-    const { data } = await axios.get('/api/user/');
+export const newUser = (props) => async dispatch => {
+    const { data } = await axios.get('/api/user/')
+    .catch(()=>{
+        props.push('/');
+    })
     const action = getUser(data);
     dispatch(action);
 }

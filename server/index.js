@@ -2,8 +2,6 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const morgan = require("morgan");
-const cookieParser = require('cookie-parser');
-const crypto = require('crypto');
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
@@ -19,14 +17,11 @@ const server = http.createServer(app);
 const io=socket(server);
 require('./socket')(io);
 
+//------------------------------------------pasport------------------------------------
+
 
 // if (process.env.NODE_ENV !== 'production') require('./auth/secret')
 require('./auth/secret')
-
-
-
-
-//------------------------------------------pasport------------------------------------
 
 // session middleware with passport
 app.use(
@@ -63,7 +58,6 @@ passport.deserializeUser(async (id, done) => {
 
 //--------------------------------------------------------------------------------
 
-
 //use compression middleware for increasing perfomance
 app.use(compression());
 
@@ -73,7 +67,6 @@ app.use(morgan("dev"));
 // body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 // api routes
 app.use("/api", require("./api"));
@@ -104,16 +97,11 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.message || "Internal server error.");
 });
 
-
-
 db.sync().then(() => {
   console.log('db synced');
   server.listen(PORT, () =>
     console.log(`studiously serving silly sounds on port http://localhost:${PORT}`)
   );
 })
-
-
-
 
 module.exports = app;

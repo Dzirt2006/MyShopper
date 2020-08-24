@@ -5,16 +5,14 @@ import PoolsShortcut from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
 import { newUser, refUser, deletePool } from './store/userReducer';
 import { cleanPool } from './store/poolReducer';
-import io from 'socket.io-client'
 //bootstrap
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 //
-
-
+import io from 'socket.io-client'
+const socket = io()
 
 function Home(props) {
     const dispatch = useDispatch();
@@ -23,7 +21,7 @@ function Home(props) {
     useEffect(() => {
         const refId = localStorage.getItem('refId');
         function gettUser() {
-            dispatch(newUser());
+            dispatch(newUser(history));
         }
         function refferanceUser() {
             dispatch(refUser(refId))
@@ -35,8 +33,9 @@ function Home(props) {
             gettUser()
         }
         dispatch(cleanPool())//clean product from pool store
+        socket.removeAllListeners()
         localStorage.clear();
-    }, [])
+    }, [socket])
 
 
     function onClickHandle(event) {

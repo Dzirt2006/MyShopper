@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-
+//bootstrap
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+//
 
 export default function GoogleAuth() {
     const id = useParams().id;
@@ -11,12 +14,16 @@ export default function GoogleAuth() {
         }
     })
 
-
-
     return (
-        <form method='get' action='/auth/'>
-            <center> <button type='submit'>Login with Google</button></center>
-        </form>
+        <div>
+            <center><h3>Welcome!</h3></center>
+            <br/>
+            <br/>
+            <Form method='get' action='/auth/'>
+                <center><Button variant="success" type="submit">Login with Google</Button> </center>
+            </Form>
+        </div>
     )
+
 }
 

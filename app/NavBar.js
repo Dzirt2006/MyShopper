@@ -44,7 +44,7 @@ function NavBar(props) {
         )
     } else {
         return (
-            <center>🍔 🥓 🍩 🍪</center>
+            <center>🍔 🥓<Button variant="info" onClick={onClickHome}>Home</Button> 🍩 🍪</center>
         )
     }
 }
