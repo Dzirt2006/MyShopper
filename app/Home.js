@@ -4,7 +4,6 @@ import NewPool from './CreatePool';
 import PoolsShortcut from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
 import { newUser, refUser, deletePool } from './store/userReducer';
-import { cleanPool } from './store/poolReducer';
 //bootstrap
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';

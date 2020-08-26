@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useCallback } from 'react';
 
 //action types
 const SET_POOL = 'SET_POOL';
@@ -30,8 +31,24 @@ export const installPool = (id, history) => async dispatch => {
     const action = setPool(data);
     dispatch(action);
 }
+
+
+/**now will be the magic!
+ * @param poolNameInput - name of the Pool
+ * @param callback - function where will be pased data from db
+ */
+export const createPool = (poolNameInput, callback) => async dispatch => {
+    if (!poolNameInput) {
+        alert(`Please enter valid pool name.`);
+        return;
+    }
+    const pool = { poolName: poolNameInput.toUpperCase().replace(/[^\w\s]/gi, '') }
+    return await axios.post('/api/pool/', pool)
+        .then(res => callback(res));
+}
+
 export const newProduct = (poolId, product) => async dispatch => {
-    if(!product.productName){
+    if (!product.productName) {
         alert(`Please enter valid product name.`);
         return;
     }
@@ -46,14 +63,17 @@ export const newProduct = (poolId, product) => async dispatch => {
     const action = addProduct(data);
     dispatch(action);
 }
+
 export const changeBoughtStatus = (prdctId, product) => async dispatch => {
     await axios.put(`api/product/${prdctId}`, product);
     //don't need to dispatch because socket broadcast will dispatch SET_POOL
 }
+
 export const cleanPool = () => dispatch => {
     const action = cleanFromPool();
     dispatch(action);
 }
+
 export const deleteProductFromPool = (prdctId) => async dispatch => {
     await axios.delete(`api/product/${prdctId}`);
     //don't need to dispatch because socket broadcast will dispatch SET_POOL
