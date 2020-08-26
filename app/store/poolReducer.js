@@ -31,8 +31,12 @@ export const installPool = (id, history) => async dispatch => {
     dispatch(action);
 }
 export const newProduct = (poolId, product) => async dispatch => {
+    if(!product.productName){
+        alert(`Please enter valid product name.`);
+        return;
+    }
     const newProduct = {
-        productName: product.productName.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''),
+        productName: product.productName.toLowerCase().replace(/[^\w\s]/gi, ''),
         quantity: product.quantity
     }
     const { data } = await axios.post(`/api/product/${poolId}`, newProduct)
