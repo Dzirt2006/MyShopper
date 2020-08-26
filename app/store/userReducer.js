@@ -23,21 +23,31 @@ export const newUser = (props) => async dispatch => {
     const action = getUser(data);
     dispatch(action);
 }
-export const deletePool = (pool_id) => async dispatch => {
-    await axios.delete(`/api/pool/${pool_id}`);
+
+export const deletePool = (poolId) => async dispatch => {
+    await axios.delete(`/api/pool/${poolId}`);
     const { data } = await axios.get('/api/user/');
     const action = getUser(data);
     dispatch(action);
 }
-export const refUser = (pool_id) => async dispatch => {
-    const { data } = await axios.post(`/api/user/${pool_id}`);
+
+export const refUser = (poolId) => async dispatch => {
+    const { data } = await axios.post(`/api/user/${poolId}`);
     const action = getUser(data);
     dispatch(action);
 }
+
 export const logout = () => dispatch => {
     axios.delete('/auth/logout')
     const action = clearUser();
     dispatch(action);
+}
+
+export const uuidGenerate = (uuidObj) => async dispatch => {
+    await axios.post('api/uuid/new_uuid', uuidObj)
+        .catch(() => {
+            alert('we got a problem with refference link. Sorry...')
+        })
 }
 
 //initial state

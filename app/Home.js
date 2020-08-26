@@ -17,15 +17,15 @@ function Home(props) {
     const history = useHistory();
 
     useEffect(() => {
-        const refId = localStorage.getItem('refId');
+        const uuid = localStorage.getItem('uuid');
         function gettUser() {
             dispatch(newUser(history));
         }
         function refferanceUser() {
-            dispatch(refUser(refId))
+            dispatch(refUser(uuid))
         }
         gettUser();
-        if (refId) {
+        if (uuid) {
             refferanceUser();
         } else {
             gettUser()
