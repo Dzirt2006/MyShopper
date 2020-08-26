@@ -39,6 +39,7 @@ function Pool(props) {
         })
 
         socket.on('status_changed', function () {
+            console.log(id)
             dispatch(installPool(id));
         });
 
@@ -71,9 +72,9 @@ function Pool(props) {
         socket.emit('status_changed', id)//this will cause status_change event on server->server emit status_changed on client->this emit will dispatch set pool and rerender
     }
 
-    function onClickDelete(event) {
+    async function onClickDelete(event) {
         event.preventDefault();
-        dispatch(deleteProductFromPool(event.target.id));
+        await dispatch(deleteProductFromPool(event.target.id));
         socket.emit('product_deleted')
     }
 
@@ -120,7 +121,8 @@ function Pool(props) {
                                         <Col> quantity: {product.quantity}</Col>
                                         <Col >
                                             <label className="customcheck">
-                                                <input id={product.id} className="float-right checkbox" type="checkbox" name="boughtStatus" checked={product.status} onChange={statusChangeHandler} />
+                                                <input id={product.id} className="float-right checkbox" type="checkbox" name="boughtStatus" 
+                                                checked={product.status} onChange={statusChangeHandler} />
                                                 <span className="checkmark"></span>
                                             </label>
                                         </Col>

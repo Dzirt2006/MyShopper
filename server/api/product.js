@@ -20,7 +20,7 @@ router.put('/:prdctId', async (req, res, next) => {
     const prdctId = req.params.prdctId;  //product id
     try {
         await Product.update(req.body, { where: { id: prdctId } })
-            .then(data => res.json(data));
+        .then(() => res.sendStatus(200));
     } catch (err) {
         next(err);
     }

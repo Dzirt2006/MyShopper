@@ -31,10 +31,9 @@ export const installPool = (id, history) => async dispatch => {
     dispatch(action);
 }
 export const newProduct = (poolId, product) => async dispatch => {
-
-    const newProduct = { 
-        productName: product.productName.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), 
-        quantity: product.quantity 
+    const newProduct = {
+        productName: product.productName.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''),
+        quantity: product.quantity
     }
     const { data } = await axios.post(`/api/product/${poolId}`, newProduct)
         .catch(() => {
@@ -43,7 +42,7 @@ export const newProduct = (poolId, product) => async dispatch => {
     const action = addProduct(data);
     dispatch(action);
 }
-export const changeBoughtStatus = async (prdctId, product) => {
+export const changeBoughtStatus = (prdctId, product) => async dispatch => {
     await axios.put(`api/product/${prdctId}`, product);
     //don't need to dispatch because socket broadcast will dispatch SET_POOL
 }
