@@ -3,7 +3,7 @@ import axios from 'axios';
 //action types
 const SET_POOL = 'SET_POOL';
 const ADD_PRODUCT = 'ADD_PRODUCT';
-const CLEAN_POOL='CLEAN_POON';
+const CLEAN_POOL = 'CLEAN_POON';
 
 //action creator
 const setPool = pool => ({
@@ -14,37 +14,46 @@ const addProduct = product => ({
     type: ADD_PRODUCT,
     product
 })
-const cleanFromPool=()=>({
-    type:CLEAN_POOL
+const cleanFromPool = () => ({
+    type: CLEAN_POOL
 })
 
 
 //thunk
-export const installPool = (id,history) => async dispatch => {
+export const installPool = (id, history) => async dispatch => {
     console.log(id)
     const { data } = await axios.get(`/api/pool/${id}`)
-    .catch((error)=>{
-        alert(`Sorry, but you have no access to this pool or pool has beed deleted.`);
-        history.push('/');
-    })
+        .catch(() => {
+            alert(`Sorry, but you have no access to this pool or pool has beed deleted.`);
+            history.push('/');
+        })
     const action = setPool(data);
     dispatch(action);
 }
-export const newProduct = (id, product) => async dispatch => {
-    const { data } = await axios.post(`/api/product/${id}`, product)
-        .catch((error) => {
+export const newProduct = (poolId, product) => async dispatch => {
+
+    const newProduct = { 
+        productName: product.productName.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), 
+        quantity: product.quantity 
+    }
+    const { data } = await axios.post(`/api/product/${poolId}`, newProduct)
+        .catch(() => {
             alert(`${product.productName} is already in your Pool`) // this will log an empty object with an error property
         })
     const action = addProduct(data);
     dispatch(action);
 }
-export const changeBoughtStatus = (prdctId, product) => async dispatch => {
+export const changeBoughtStatus = async (prdctId, product) => {
     await axios.put(`api/product/${prdctId}`, product);
     //don't need to dispatch because socket broadcast will dispatch SET_POOL
 }
-export const cleanPool=()=>dispatch=>{
-    const action=cleanFromPool();
+export const cleanPool = () => dispatch => {
+    const action = cleanFromPool();
     dispatch(action);
+}
+export const deleteProductFromPool = (prdctId) => async dispatch => {
+    await axios.delete(`api/product/${prdctId}`);
+    //don't need to dispatch because socket broadcast will dispatch SET_POOL
 }
 
 //initial state
@@ -57,8 +66,8 @@ const reducer = (state = initialState, action) => {
             return action.products;
         case ADD_PRODUCT:
             return [...state, action.product];
-            case CLEAN_POOL:
-                return initialState;
+        case CLEAN_POOL:
+            return initialState;
         default:
             return state;
     }

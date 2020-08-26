@@ -29,14 +29,14 @@ export default function NewPool(props) {
     return (
         <center>
         <Container>
-            <Form onSubmit={onClickHandler} autoComplete='off'>
+            <Form onSubmit={onClickHandler} autoComplete="new-password">
                 <Row>
                     <Col xs={9}>
                         <Form.Group controlId="formBasic">
                             <Form.Control type="text" name="name" onChange={onChangeEv}
                             />
                             <Form.Text className="text-muted">
-                                Type you pool hame here
+                                Type you pool name here
                             </Form.Text>
                         </Form.Group>
                     </Col>

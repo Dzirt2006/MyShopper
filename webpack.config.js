@@ -26,11 +26,11 @@ module.exports = {
     ],
   },
   plugins: [
-      new GenerateSW(),
-      new CopyWebpackPlugin({
-        patterns: [
-          { from: path.resolve(__dirname, './src') },
-        ],
-      })
+      // new GenerateSW(),
+      // new CopyWebpackPlugin({
+      //   patterns: [
+      //     { from: path.resolve(__dirname, './src') },
+      //   ],
+      // })
     ]
 };
