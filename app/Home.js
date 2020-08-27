@@ -4,7 +4,6 @@ import NewPool from './CreatePool';
 import PoolsShortcut from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
 import { newUser, refUser, deletePool } from './store/userReducer';
-import { cleanPool } from './store/poolReducer';
 //bootstrap
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -18,16 +17,16 @@ function Home(props) {
     const history = useHistory();
 
     useEffect(() => {
-        const refId = localStorage.getItem('refId');
+        const uuid = localStorage.getItem('uuid');
         function gettUser() {
             dispatch(newUser(history));
         }
-        function refferanceUser() {
-            dispatch(refUser(refId))
+        function referenceUser() {
+            dispatch(refUser(uuid))
         }
         gettUser();
-        if (refId) {
-            refferanceUser();
+        if (uuid) {
+            referenceUser();
         } else {
             gettUser()
         }

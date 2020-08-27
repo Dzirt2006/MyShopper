@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { uuidGenerate } from './store/userReducer';
+import { v4 as uuidv4 } from 'uuid';
 import {
     FacebookShareButton,
     WhatsappShareButton,
@@ -18,13 +21,27 @@ import Col from 'react-bootstrap/Col';
 
 export default function ShareBar(props) {
     const [open, setOpen] = useState(false);
+    const [uuidState, setUuid] = useState('');
+    const dispatch = useDispatch();
     const id = props.id;
+
+    function onClickUuidCreator(event) {
+        event.preventDefault();
+        const uuid = uuidv4();
+        setOpen(!open);
+        setUuid(uuid);
+        const uuidObj = {
+            uuid: uuid,
+            poolId: id
+        }
+        dispatch(uuidGenerate(uuidObj));
+    }
 
     return (
         <>
             <Container>
                 <Button
-                    onClick={() => setOpen(!open)}
+                    onClick={onClickUuidCreator}
                     aria-controls="example-collapse-text"
                     aria-expanded={open}
                     className="float-right"
@@ -36,9 +53,10 @@ export default function ShareBar(props) {
                         <Container>
                             <Row>
                                 <Col>
+
                                     <FacebookMessengerShareButton
                                         className="network__share-button"
-                                        url={`${window.location.origin}/${id}`}
+                                        url={`${window.location.origin}/${uuidState}`}
                                         title={'Let\'s connect to my shopping pool!'}
                                     >
                                         <FacebookMessengerIcon size={32} />
@@ -47,7 +65,7 @@ export default function ShareBar(props) {
                                 <Col>
                                     <WhatsappShareButton
                                         className="network__share-button"
-                                        url={`${window.location.origin}/${id}`}
+                                        url={`${window.location.origin}/${uuidState}`}
                                         title={'Let\'s connect to my shopping pool!'}
                                     >
                                         <WhatsappIcon size={32} />
@@ -56,7 +74,7 @@ export default function ShareBar(props) {
                                 <Col>
                                     <FacebookShareButton
                                         className="network__share-button"
-                                        url={`${window.location.origin}/${id}`}
+                                        url={`${window.location.origin}/${uuidState}`}
                                         title={'Let\'s connect to my shopping pool!'}
                                     >
                                         <FacebookIcon size={32} />
@@ -65,7 +83,7 @@ export default function ShareBar(props) {
                                 <Col>
                                     <TelegramShareButton
                                         className="network__share-button"
-                                        url={`${window.location.origin}/${id}`}
+                                        url={`${window.location.origin}/${uuidState}`}
                                         title={'Let\'s connect to my shopping pool!'}
                                     >
                                         <TelegramIcon size={32} />

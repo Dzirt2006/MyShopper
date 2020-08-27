@@ -24,5 +24,10 @@ module.exports = io => {
       io.sockets.emit('user disconnected');
     });
 
+    socket.on('product_deleted', function () {
+      io.sockets.emit('product_deleted');
+    });
+    
+
   })
 }

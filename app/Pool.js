@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { installPool, newProduct, changeBoughtStatus } from './store/poolReducer';
+import { installPool, newProduct, changeBoughtStatus, deleteProductFromPool } from './store/poolReducer';
 //bootstrap
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -34,8 +34,11 @@ function Pool(props) {
             dispatch(installPool(id));
         });
 
+        socket.on('product_deleted', function () {
+            dispatch(installPool(id));
+        })
+
         socket.on('status_changed', function () {
-            console.log(id)
             dispatch(installPool(id));
         });
 
@@ -46,7 +49,7 @@ function Pool(props) {
         event.preventDefault();
         await dispatch(newProduct(id, product));
         socket.emit('product_added', id);
-        setProduct({ productName: '' });
+        setProduct({ productName: '', quantity: 1 });
     }
 
     function onChangeEv(event) {
@@ -68,37 +71,36 @@ function Pool(props) {
         socket.emit('status_changed', id)//this will cause status_change event on server->server emit status_changed on client->this emit will dispatch set pool and rerender
     }
 
+    async function onClickDelete(event) {
+        event.preventDefault();
+        await dispatch(deleteProductFromPool(event.target.id));
+        socket.emit('product_deleted')
+    }
+
     return (
         <div>
             <ShareBar id={id} className="float-right" />
             <br />
             <br />
             <Container>
-                <Form onSubmit={onClickHandler} autoComplete='off'>
+                <Form onSubmit={onClickHandler} >
                     <Container>
                         <Row>
                             <Col xs={6}>
                                 <Form.Group controlId="formBasic">
-                                    <Form.Control type="text" name="productName" value={product.productName} onChange={onChangeEv}
+                                    <Form.Control type="text" name="productName"
+                                        value={product.productName} onChange={onChangeEv} autoComplete="off"
                                     />
                                     <Form.Text className="text-muted">
-                                        Type you product there.
+                                        Type you product here
                                     </Form.Text>
                                 </Form.Group>
                             </Col>
                             <Col xs={2}>
                                 <Form.Group controlId="exampleForm.ControlSelect1">
-                                    <Form.Control as="select" name="quantity" value={product.quantity} onChange={onChangeEv} >
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
+                                    <Form.Control type="number" name="quantity" min="1"
+                                        value={product.quantity}
+                                        onChange={onChangeEv} >
                                     </Form.Control>
                                 </Form.Group>
                             </Col>
@@ -115,14 +117,18 @@ function Pool(props) {
                             <ListGroup.Item key={product.id}>
                                 <Form>
                                     <Row xs={1} md={1} lg={1}>
-                                        <Col xs={8}>{product.productName}</Col>
+                                        <Col xs={8} style={product.status ? { textDecoration: 'line-through' } : null}>{product.productName}</Col>
                                         <Col> quantity: {product.quantity}</Col>
                                         <Col >
                                             <label className="customcheck">
-                                                <input id={product.id} className="float-right checkbox" type="checkbox" name="boughtStatus" checked={product.status} onChange={statusChangeHandler} />
+                                                <input id={product.id} className="float-right checkbox" type="checkbox" name="boughtStatus"
+                                                    checked={product.status} onChange={statusChangeHandler}
+
+                                                />
                                                 <span className="checkmark"></span>
                                             </label>
                                         </Col>
+                                        <Col><Button variant="danger" id={product.id} onClick={onClickDelete}>X</Button></Col>
                                     </Row>
                                 </Form>
                             </ListGroup.Item>

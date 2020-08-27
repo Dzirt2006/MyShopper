@@ -5,11 +5,19 @@ const { User } = require('../db/models')
 module.exports = router
 
 
+
 const googleConfig = {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: process.env.GOOGLE_CALLBACK
 }
+
+// const secret=require ('./secret')
+// const googleConfig = {
+//     clientID: secret.google.clientID,
+//     clientSecret: secret.google.clientSecret,
+//     callbackURL: secret.google.callbackURL
+// }
 
 
 const strategy = new GoogleStrategy(

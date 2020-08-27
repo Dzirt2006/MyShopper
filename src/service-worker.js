@@ -110,6 +110,9 @@ define("./service-worker.js",['./workbox-64f1e998'], function (workbox) { 'use s
     "url": "back.jpg",
     "revision": "716566935dcfe69f8fc5927a686a4594"
   }, {
+    "url": "bundle.js",
+    "revision": "85213a41805425c372f14caf48f3c237"
+  }, {
     "url": "favicon.gif",
     "revision": "3dbdb19ab4c4c6edf1ec72754c3f4c5d"
   }, {
@@ -123,13 +126,13 @@ define("./service-worker.js",['./workbox-64f1e998'], function (workbox) { 'use s
     "revision": "a2e0d236564d42d86a22669787ecb4a3"
   }, {
     "url": "index.html",
-    "revision": "cbaf253f5dafe446294193ac85f8df87"
+    "revision": "b04d791663a1b3a192d3e649edfef372"
   }, {
     "url": "manifest.json",
     "revision": "07d4ee64fafc8d1971cfdae93854af77"
   }, {
     "url": "styles.css",
-    "revision": "e9a44ebcb5ff71eda15361c7d853899a"
+    "revision": "f43ff3d9e682eef5a61fe023a272b8df"
   }], {});
 
 });

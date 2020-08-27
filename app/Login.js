@@ -6,11 +6,11 @@ import Form from 'react-bootstrap/Form';
 //
 
 export default function GoogleAuth() {
-    const id = useParams().id;
+    const uuid = useParams().id;
 
     useEffect(() => {
-        if (id) {
-            localStorage.setItem('refId', id)
+        if (uuid) {
+            localStorage.setItem('uuid', uuid)
         }
     })
 
