@@ -12,13 +12,12 @@ router.post('/new_uuid', async (req, res, next) => {
 
 })
 
-
 router.post('/use_uuid', async (req, res, next) => {
     const user = req.user;
-    const uuidInpt = req.body
+    const uuidInpt = req.body.uuid
     try {
-        const { refId } = await UUID.findOne({ where: { uuid: uuidInpt } })
-        const pool = await Pool.findOne({ where: { id: refId.id } });
+        let data = await UUID.findOne({ where: { uuid: uuidInpt } })
+        const pool = await Pool.findOne({ where: { id: data.poolId } });
         await User.findOne({ where: { googleId: user.googleId } })
             .then(user => user.addPool(pool))
         data = await User.findOne({ where: { googleId: user.googleId }, include: [Pool] })

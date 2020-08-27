@@ -6,8 +6,7 @@ module.exports = {
   watch: false,
   mode: "development",
   entry: [
-    "@babel/polyfill", // enables async-await
-    "./app/index.js",
+    "./app/index.js"
   ],
   output: {
     filename: "bundle.js",
@@ -26,11 +25,11 @@ module.exports = {
     ],
   },
   plugins: [
-      // new GenerateSW(),
-      // new CopyWebpackPlugin({
-      //   patterns: [
-      //     { from: path.resolve(__dirname, './src') },
-      //   ],
-      // })
+      new GenerateSW(),
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: path.resolve(__dirname, './src') },
+        ],
+      })
     ]
 };

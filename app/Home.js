@@ -21,12 +21,12 @@ function Home(props) {
         function gettUser() {
             dispatch(newUser(history));
         }
-        function refferanceUser() {
+        function referenceUser() {
             dispatch(refUser(uuid))
         }
         gettUser();
         if (uuid) {
-            refferanceUser();
+            referenceUser();
         } else {
             gettUser()
         }

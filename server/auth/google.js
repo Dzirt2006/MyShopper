@@ -6,17 +6,18 @@ module.exports = router
 
 
 
-// const googleConfig = {
-//     clientID: process.env.GOOGLE_CLIENT_ID,
-//     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//     callbackURL: process.env.GOOGLE_CALLBACK
-// }
-
 const googleConfig = {
-    clientID: "116000530438-nmbpbeng26ietp60vp8bdlid5pqc3u7h.apps.googleusercontent.com",
-    clientSecret: "sYQnexDp8mtZoaVxHAu_hkfT",
-    callbackURL: "http://localhost:8000/auth/callback"
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK
 }
+
+// const secret=require ('./secret')
+// const googleConfig = {
+//     clientID: secret.google.clientID,
+//     clientSecret: secret.google.clientSecret,
+//     callbackURL: secret.google.callbackURL
+// }
 
 
 const strategy = new GoogleStrategy(

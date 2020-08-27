@@ -39,7 +39,6 @@ function Pool(props) {
         })
 
         socket.on('status_changed', function () {
-            console.log(id)
             dispatch(installPool(id));
         });
 
@@ -89,8 +88,8 @@ function Pool(props) {
                         <Row>
                             <Col xs={6}>
                                 <Form.Group controlId="formBasic">
-                                    <Form.Control type="text" name="productName" 
-                                    value={product.productName} onChange={onChangeEv} autoComplete="off"
+                                    <Form.Control type="text" name="productName"
+                                        value={product.productName} onChange={onChangeEv} autoComplete="off"
                                     />
                                     <Form.Text className="text-muted">
                                         Type you product here
@@ -118,13 +117,13 @@ function Pool(props) {
                             <ListGroup.Item key={product.id}>
                                 <Form>
                                     <Row xs={1} md={1} lg={1}>
-                                        <Col xs={8} style={product.status ?{textDecoration: 'line-through'}:null}>{product.productName}</Col>
+                                        <Col xs={8} style={product.status ? { textDecoration: 'line-through' } : null}>{product.productName}</Col>
                                         <Col> quantity: {product.quantity}</Col>
                                         <Col >
                                             <label className="customcheck">
-                                                <input id={product.id} className="float-right checkbox" type="checkbox" name="boughtStatus" 
-                                                checked={product.status} onChange={statusChangeHandler} 
-                                                
+                                                <input id={product.id} className="float-right checkbox" type="checkbox" name="boughtStatus"
+                                                    checked={product.status} onChange={statusChangeHandler}
+
                                                 />
                                                 <span className="checkmark"></span>
                                             </label>

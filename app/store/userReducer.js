@@ -31,8 +31,8 @@ export const deletePool = (poolId) => async dispatch => {
     dispatch(action);
 }
 
-export const refUser = (poolId) => async dispatch => {
-    const { data } = await axios.post(`/api/user/${poolId}`);
+export const refUser = (poolUuid) => async dispatch => {
+    const { data } = await axios.post(`/api/uuid/use_uuid`,{uuid:poolUuid});
     const action = getUser(data);
     dispatch(action);
 }

@@ -27,10 +27,11 @@ export default function ShareBar(props) {
 
     function onClickUuidCreator(event) {
         event.preventDefault();
+        const uuid = uuidv4();
         setOpen(!open);
-        setUuid(uuidv4());
+        setUuid(uuid);
         const uuidObj = {
-            uuid: uuidState,
+            uuid: uuid,
             poolId: id
         }
         dispatch(uuidGenerate(uuidObj));
