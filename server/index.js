@@ -28,6 +28,7 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET || 'shhh it is secret',
     resave: false,
+    cookie: {expires: new Date(253402300000000)},
     saveUninitialized: false
   })
 )
@@ -70,9 +71,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // api routes
 app.use("/api", require("./api"));
-
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, "../src")));
+
 
 // Send index.html for any other requests
 app.get("*", async (req, res, next) => {
