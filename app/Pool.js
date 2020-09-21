@@ -80,6 +80,8 @@ function Pool(props) {
     console.log(props)
     return (
         <div>
+            {!!props.pool &&
+                <center><h4>You are in Pool: {props.pool}</h4></center>}
             <ShareBar id={id} className="float-right" />
             <br />
             <br />
@@ -143,7 +145,7 @@ function Pool(props) {
 const mapState = state => {
     return {
         products: state.pool.products,
-        pool:state.pool.poolName
+        pool: state.pool.poolName
     };
 };
 
