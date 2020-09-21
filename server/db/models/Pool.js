@@ -15,7 +15,7 @@ const Pool = db.define('pool', {
 
 Pool.addHook('beforeCreate', async (pool, options) => {
     const poolSearch = pool.dataValues.poolName;
-    await Pool.findAll({ where: {poolName:poolSearch} })
+    await Pool.findAll({ where: { poolName: poolSearch } })
         .then(data => {
             if (data[0]) {
                 throw new Error('pool already exist!');
