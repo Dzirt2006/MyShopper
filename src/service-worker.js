@@ -111,7 +111,7 @@ define("./service-worker.js",['./workbox-64f1e998'], function (workbox) { 'use s
     "revision": "716566935dcfe69f8fc5927a686a4594"
   }, {
     "url": "bundle.js",
-    "revision": "85213a41805425c372f14caf48f3c237"
+    "revision": "11ab71bc058c6caceb3c75729644e1d1"
   }, {
     "url": "favicon.gif",
     "revision": "3dbdb19ab4c4c6edf1ec72754c3f4c5d"
@@ -124,6 +124,9 @@ define("./service-worker.js",['./workbox-64f1e998'], function (workbox) { 'use s
   }, {
     "url": "img/logo512x512.png",
     "revision": "a2e0d236564d42d86a22669787ecb4a3"
+  }, {
+    "url": "img/slidng window.jpg",
+    "revision": "1d9150a88cf4b3cda8ef53ca7dce19b0"
   }, {
     "url": "index.html",
     "revision": "b04d791663a1b3a192d3e649edfef372"
