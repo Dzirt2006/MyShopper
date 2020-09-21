@@ -6,6 +6,7 @@
   "scripts": {
     "start-dev": "npm run build-watch & npm run start-server",
     "start-server": "node ./server/index.js -e html,js,css --ignore public",
+    "start-fix": "nodemon ./server/index.js -e html,js,css --ignore public",
     "build-watch": "webpack -w",
     "start": "node ./server/index.js",
     "test": "node ./test.js"

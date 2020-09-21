@@ -3,7 +3,7 @@ const { User, Pool, Product } = require('../db/models');
 module.exports = router;
 
 router.post('/', async (req, res, next) => {
-    const user = req.user;
+    const user = req.user;//get user data fro passport
     const poolName = req.body;
     try {
         data = await User.findOne({ where: { googleId: user.googleId } })

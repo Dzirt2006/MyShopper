@@ -12,12 +12,12 @@ import Form from 'react-bootstrap/Form';
 import ListGroup from 'react-bootstrap/ListGroup';
 //
 import ShareBar from './SharingBar';
-import io from 'socket.io-client'
-const socket = io()
+import io from 'socket.io-client';
+const socket = io();
 
 
 function Pool(props) {
-    const [product, setProduct] = useState({ productName: '', quantity: 1 });
+    const [product, setProduct] = useState({ productName: '', quantity: 1 });// used for input field
     const id = useParams().id;
     const dispatch = useDispatch();
     const history = useHistory();
@@ -25,7 +25,7 @@ function Pool(props) {
 
 
     useEffect(() => {
-        socket.removeAllListeners()
+        socket.removeAllListeners();
         dispatch(installPool(id, history));
         socket.emit('unsubscribe');
         socket.emit('subscribe', id);
@@ -58,7 +58,7 @@ function Pool(props) {
 
     async function statusChangeHandler(event) {
         event.preventDefault();
-        const idProduct = parseInt(event.target.id)
+        const idProduct = parseInt(event.target.id);
         const productJSON = props.products.filter(product => product.id === idProduct)[0];
         await dispatch(changeBoughtStatus(idProduct,
             {
@@ -74,9 +74,10 @@ function Pool(props) {
     async function onClickDelete(event) {
         event.preventDefault();
         await dispatch(deleteProductFromPool(event.target.id));
-        socket.emit('product_deleted')
+        socket.emit('product_deleted');
     }
 
+    console.log(props)
     return (
         <div>
             <ShareBar id={id} className="float-right" />
@@ -141,7 +142,8 @@ function Pool(props) {
 
 const mapState = state => {
     return {
-        products: state.pool,
+        products: state.pool.products,
+        pool:state.pool.poolName
     };
 };
 
