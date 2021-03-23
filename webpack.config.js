@@ -25,7 +25,7 @@ module.exports = {
     ],
   },
   plugins: [
-      new GenerateSW(),
+       new GenerateSW(),
       new CopyWebpackPlugin({
         patterns: [
           { from: path.resolve(__dirname, './src') },

@@ -1,26 +1,40 @@
 const Sequelize = require('sequelize');
 const db = require('../db')
 
-
 const Pool = db.define('pool', {
-    usersQ: {
+    ownerId: {
         type: Sequelize.INTEGER,
-        defaultValue: 1
     },
     poolName: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    status: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     }
 })
 
+/**
+ * pool hook works each time when user add new pool
+ * validate do the user have it pool
+ * validate variables: poolName, ownerId
+ */
 Pool.addHook('beforeCreate', async (pool, options) => {
     const poolSearch = pool.dataValues.poolName;
-    await Pool.findAll({ where: { poolName: poolSearch } })
+    const userId = pool.dataValues.ownerId;
+    await Pool.findOne({
+        where: {
+            ownerId: userId,
+            poolName: poolSearch
+        }
+    })
         .then(data => {
-            if (data[0]) {
+            if (data) {
                 throw new Error('pool already exist!');
             }
-        })
+        }
+        )
 });
 
 module.exports = Pool;
