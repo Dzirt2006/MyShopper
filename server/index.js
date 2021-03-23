@@ -6,7 +6,7 @@ const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
 const db = require('./db');
-const { User} = require('./db/models')
+const { User } = require('./db/models')
 
 const PORT = process.env.PORT || 8000;
 const socket = require('socket.io')
@@ -14,7 +14,7 @@ const socket = require('socket.io')
 const http = require('http');
 const server = http.createServer(app);
 
-const io=socket(server);
+const io = socket(server);
 require('./socket')(io);
 
 //------------------------------------------pasport------------------------------------
@@ -28,7 +28,7 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET || 'shhh it is secret',
     resave: false,
-    cookie: {expires: new Date(253402300000000)},
+    cookie: { expires: new Date(253402300000000) },
     saveUninitialized: false
   })
 )
@@ -41,7 +41,7 @@ app.use(passport.session())
 
 
 // passport registration
-passport.serializeUser((user, done) => {done(null, user.id)})
+passport.serializeUser((user, done) => { done(null, user.id) })
 
 // If we've serialized the user on our session with an id, we look it up here
 // and attach it as 'req.user'.
@@ -54,8 +54,8 @@ passport.deserializeUser(async (id, done) => {
   }
 })
 
-  // auth and api routes
-  app.use('/auth', require('./auth/google'))
+// auth and api routes
+app.use('/auth', require('./auth/google'))
 
 //--------------------------------------------------------------------------------
 
@@ -103,6 +103,6 @@ db.sync().then(() => {
   server.listen(PORT, () =>
     console.log(`studiously serving silly sounds on port http://localhost:${PORT}`)
   );
-})
+}).catch(() => console.log("db sync promise rejected"));
 
 module.exports = app;
