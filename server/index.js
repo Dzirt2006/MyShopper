@@ -103,6 +103,6 @@ db.sync().then(() => {
   server.listen(PORT, () =>
     console.log(`studiously serving silly sounds on port http://localhost:${PORT}`)
   );
-}).catch(() => console.log("db sync promise rejected"));
+}).catch((err) => console.log("db sync promise rejected ",err));
 
 module.exports = app;
