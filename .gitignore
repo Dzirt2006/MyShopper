@@ -1,4 +1,3 @@
 node_modules
-/server/auth/secret.js
-/src/bundle.js
-
+server/auth/secret.js
+src/bundle.js

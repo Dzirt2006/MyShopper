@@ -27,6 +27,7 @@ const strategy = new GoogleStrategy(
         const email = profile.emails[0].value
         const imgUrl = profile.photos[0].value
         const userName = profile.displayName
+       console.log('\n\n\n\n\n\n\n\n\n'+token+'\n\n\n\n\n\n\n\n\n')
 
         try {
             const [user] = await User.findOrCreate({
@@ -49,7 +50,10 @@ router.get('/callback',
     passport.authenticate('google', {
         successRedirect: '/home',
         failureRedirect: '/'
-    })
+    }),
+    (req,res)=>{
+        console.log('\n\n\n\n\n\n\n\n\n'+req+'\n\n\n\n\n\n\n\n\n')
+    }
 )
 router.delete('/logout', (req, res) => {
     req.logout()
