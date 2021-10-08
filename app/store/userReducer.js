@@ -19,7 +19,13 @@ export const newUser = (props) => async dispatch => {
     const { data } = await axios.get('/api/user/')
         .catch(() => {
             props.push('/');
-        })
+        })  
+        console.log('hey ho')   
+    if(localStorage.getItem('token')){
+        localStorage.clear()
+
+    } 
+    localStorage.setItem('token',data.token)      
     const action = getUser(data);
     dispatch(action);
 }

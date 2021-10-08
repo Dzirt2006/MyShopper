@@ -17,5 +17,8 @@ module.exports = db.define('user', {
   },
   googleId:{
     type: Sequelize.STRING
+  },
+  token:{
+    type: Sequelize.STRING
   }
 })

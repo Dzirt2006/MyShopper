@@ -4,14 +4,20 @@ import { isMobile } from 'react-device-detect';
 //bootstrap
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import axios from 'axios';
 //
 
 export default function GoogleAuth() {
     const uuid = useParams().id;
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
         if (uuid) {
             localStorage.setItem('uuid', uuid)
+        }
+        if(token){
+            console.log(token)
+         async()=> await axios.get('/auth/token',{headers:{ Authorization:token}}).then(res=>console.log(res))
         }
 //get token from local storage here if yes redirect to '/home'
     })

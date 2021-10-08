@@ -15,7 +15,6 @@ import ListGroup from 'react-bootstrap/ListGroup';
 function Home(props) {
     const dispatch = useDispatch();
     const history = useHistory();
-
     useEffect(() => {
         const uuid = localStorage.getItem('uuid');//invite uuid store in localStorage
         function gettUser() {
@@ -30,7 +29,10 @@ function Home(props) {
         } else {
             gettUser()
         }
-        localStorage.clear();
+        if(!localStorage.getItem('token')){
+            localStorage.setItem('token',props.user.token)
+        }
+        localStorage.removeItem('uuid');
     }, [])
 
 

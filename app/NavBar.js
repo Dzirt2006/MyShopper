@@ -19,6 +19,7 @@ function NavBar(props) {
 
     function onClickLogout(event) {
         dispatch(logout());
+        // localStorage.clear();
         history.push('/')
     }
 
