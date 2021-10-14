@@ -7,7 +7,7 @@ module.exports = {
   mode: "development",
   stats: 'none',
   devServer: {
-    noInfo: true
+    noInfo: false
   },
   entry: [
     "./app/main.js"

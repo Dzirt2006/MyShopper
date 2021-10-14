@@ -51,7 +51,8 @@ const tokenStrategy = new BearerStrategy(
         User.findOne({ where: { token: token } }).then((user,err ) => {
             if (err) { return done(err); }
             if (!user) { return done(null, false); }
-            return done(null, user, { scope: 'all' });
+            console.log(user)
+            return done(null, user, { scope: ['email', 'profile'] });
         })
     }
 )
@@ -69,11 +70,27 @@ passport.use(strategy)
 router.get('/', passport.authenticate('google', { scope: ['email', 'profile'] })
 )
 
-router.get('/token', passport.authenticate('bearer', { session: false }),
+router.get('/token', passport.authenticate('bearer'),
     function (req, res) {
+        console.log(req)
+
+
         res.json(req.user);
+        // res.redirect('/home')
     }
 );
+
+// router.get('/token', function(req, res, next) {
+//     passport.authenticate('bearer', function(err, user, info) {
+//         console.log(info)
+//       if (err) { return next(err); }
+//       if (!user) { return res.redirect('/'); }
+//       req.logIn(user, function(err) {
+//         if (err) { return next(err); }
+//         res.redirect('/api/user');
+//       });
+//     })(req, res, next);
+//   });
 
 router.get('/callback',
     passport.authenticate('google', {
@@ -81,6 +98,10 @@ router.get('/callback',
         failureRedirect: '/'
     }),
 )
+
+
+
+
 router.delete('/logout', (req, res) => {
     // console.log(req.user)
     req.logout()
@@ -88,6 +109,7 @@ router.delete('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
+    console.log('me called')
     res.json(req.user)
 })
 
