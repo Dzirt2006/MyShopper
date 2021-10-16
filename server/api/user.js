@@ -4,7 +4,6 @@ module.exports = router;
 
 router.get('/', async (req, res, next) => {
     const user = req.user;
-    console.log('uiser in user\n\n\n', user)
     try {
         const wholeUser = await User.findOne({ where: { googleId: user.googleId }, include: [Pool] })
         res.json(wholeUser)

@@ -17,6 +17,7 @@ function Home(props) {
     const dispatch = useDispatch();
     const history = useHistory();
     const token = localStorage.getItem('token');
+    
     useEffect(() => {
         const uuid = localStorage.getItem('uuid');//invite uuid store in localStorage
         function gettUser() {

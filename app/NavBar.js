@@ -18,8 +18,8 @@ function NavBar(props) {
     const dispatch = useDispatch();
 
     function onClickLogout(event) {
-        dispatch(logout());
-        // localStorage.clear();
+        localStorage.clear();
+        dispatch(logout());        
         history.push('/')
     }
 

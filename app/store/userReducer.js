@@ -19,16 +19,16 @@ export const newUser = (props) => async dispatch => {
     const { data } = await axios.get('/api/user/')
         .catch(() => {
             props.push('/');
-        })  
-        console.log('hey ho')   
-    if(localStorage.getItem('token')){
+        })
+    if (localStorage.getItem('token')) {
         localStorage.clear()
 
-    } 
-    localStorage.setItem('token',data.token)      
+    }
+    localStorage.setItem('token', data.token)
     const action = getUser(data);
     dispatch(action);
 }
+
 
 export const deletePool = (poolId) => async dispatch => {
     await axios.delete(`/api/pool/${poolId}`);
@@ -38,7 +38,7 @@ export const deletePool = (poolId) => async dispatch => {
 }
 
 export const refUser = (poolUuid) => async dispatch => {
-    const { data } = await axios.post(`/api/uuid/use_uuid`,{uuid:poolUuid});
+    const { data } = await axios.post(`/api/uuid/use_uuid`, { uuid: poolUuid });
     const action = getUser(data);
     dispatch(action);
 }

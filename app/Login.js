@@ -2,31 +2,42 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { isMobile } from 'react-device-detect';
 import { useHistory } from 'react-router-dom';
+import { connect, useDispatch } from 'react-redux';
 import axios from 'axios';
 //bootstrap
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
+
 //
 
 export default function GoogleAuth() {
+    const dispatch = useDispatch();
     const uuid = useParams().id;
     const token = localStorage.getItem('token');
     const history = useHistory();
 
     useEffect(() => {
-        // console.log('this '+token)
-        if (uuid) {
-            localStorage.setItem('uuid', uuid)
-        }
+        const load = async () => {
 
-        //get token from local storage here if yes redirect to '/home'
+
+            console.log('this ' + token)
+            if (uuid) {
+                localStorage.setItem('uuid', uuid)
+            }
+            //get token from local storage here if yes redirect to '/home'
+            if (token) {
+                const { data } = await axios.get('/auth/token', { headers: { Authorization: 'Bearer ' + token } })
+                    .catch(err => console.error(err))
+                if (data) {
+                    history.push('/home')
+                }
+            }
+        }
+        load()
     })
 
-    const tokenAuth = async () => {
-        await axios.get('/auth/token', { headers: { Authorization: 'Bearer ' + token } })
-        // history.push(`/home`)
-    }
+
 
     const renderContent = () => {
         if (isMobile) {
@@ -53,21 +64,23 @@ export default function GoogleAuth() {
         </div>
     }
 
-   
-        return (
-            <div>
-                <br />
-                <center><h3>Welcome!</h3></center>
-                <br />
-                <br />
-                <Form method='get' action='/auth/'>
-                    <center><Button variant="success" type="submit">Login with Google</Button> </center>
-                </Form>
-                <br />
-                <br />
-                {renderContent()}
-            </div>
-        )
-    
-}
+
+    return (
+        <div>
+            <br />
+            <center><h3>Welcome!</h3></center>
+            <br />
+            <br />
+            <Form method='get' action='/auth/'>
+                <center><Button variant="success" type="submit">Login with Google</Button> </center>
+            </Form>
+            <br />
+            <br />
+            {renderContent()}
+        </div>
+    )
+
+};
+
+
 
