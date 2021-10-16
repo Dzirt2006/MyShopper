@@ -4,6 +4,7 @@ import NewPool from './CreatePool';
 import PoolsShortcut from './PoolsShortcut';
 import { connect, useDispatch } from 'react-redux';
 import { newUser, refUser, deletePool } from './store/userReducer';
+import axios from 'axios';
 //bootstrap
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -15,13 +16,19 @@ import ListGroup from 'react-bootstrap/ListGroup';
 function Home(props) {
     const dispatch = useDispatch();
     const history = useHistory();
-
+    const token = localStorage.getItem('token');
     useEffect(() => {
         const uuid = localStorage.getItem('uuid');//invite uuid store in localStorage
         function gettUser() {
+            if(token){
+                // axios.get('/auth/token',{headers:{ Authorization:'Bearer '+token}}).then(res=>console.log("return "+ res)).catch(err=>console.log(err))
+               }
             dispatch(newUser(history));
         }
         function referenceUser() {
+            if(token){
+                // axios.get('/auth/token',{headers:{ Authorization:'Bearer '+token}}).then(res=>console.log("return "+ res)).catch(err=>console.log(err))
+               }
             dispatch(refUser(uuid))
         }
         gettUser();
@@ -30,7 +37,10 @@ function Home(props) {
         } else {
             gettUser()
         }
-        localStorage.clear();
+        if(!localStorage.getItem('token')){
+            localStorage.setItem('token',props.user.token)
+        }
+        localStorage.removeItem('uuid');
     }, [])
 
 

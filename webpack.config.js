@@ -5,6 +5,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   watch: false,
   mode: "development",
+  stats: 'none',
+  devServer: {
+    noInfo: false
+  },
   entry: [
     "./app/main.js"
   ],
